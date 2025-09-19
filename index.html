@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique KOLA - Votre Destination Shopping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #25D366;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .brand-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .brand-slogan {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        
+        .nav-links a:hover {
+            color: #25D366;
+            background-color: #f0fff0;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #128C7E;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: #25D366;
+        }
+        
+        /* About Section */
+        .about {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            margin: 60px 0;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-content {
+            flex: 1;
+        }
+        
+        .about-content h2 {
+            font-size: 32px;
+            color: #128C7E;
+            margin-bottom: 20px;
+        }
+        
+        .about-content p {
+            margin-bottom: 15px;
+            font-size: 17px;
+        }
+        
+        .owner-info {
+            background-color: #f0fff0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #25D366;
+        }
+        
+        /* Products Section */
+        .products {
+            margin: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            color: #128C7E;
+            margin-bottom: 40px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .product-info p {
+            color: #25D366;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        /* Location Section */
+        .location {
+            margin: 60px 0;
+        }
+        
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .address {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .address h3 {
+            color: #128C7E;
+            margin-bottom: 15px;
+        }
+        
+        /* Services Section */
+        .services {
+            margin: 60px 0;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-icon {
+            font-size: 40px;
+            color: #25D366;
+            margin-bottom: 20px;
+        }
+        
+        .service-card h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        /* Management Section */
+        .management {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin: 60px 0;
+        }
+        
+        .management h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .management p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 18px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #25D366;
+        }
+        
+        .footer-column p, .footer-column a {
+            margin-bottom: 10px;
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .footer-column a:hover {
+            color: #25D366;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: #128C7E;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .about {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo">K</div>
+                    <div>
+                        <div class="brand-name">BOUTIQUE KOLA</div>
+                        <div class="brand-slogan">Votre shopping en toute élégance</div>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +228 92 87 16 05</p>
+                    <p><i class="fas fa-envelope"></i> contact@boutiquekola.tg</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#produits">Produits</a></li>
+                <li><a href="#apropos">À Propos</a></li>
+                <li><a href="#localisation">Localisation</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero" id="accueil">
+            <h1>Bienvenue à la Boutique KOLA</h1>
+            <p>Découvrez une expérience shopping exceptionnelle avec nos produits de qualité et notre service personnalisé.</p>
+            <a href="#produits" class="btn">Découvrir nos produits</a>
+            <a href="#localisation" class="btn btn-outline">Nous trouver</a>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="apropos">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Intérieur de la boutique KOLA">
+            </div>
+            <div class="about-content">
+                <h2>Notre Histoire</h2>
+                <p>Fondée en 2010, la Boutique KOLA est devenue une référence dans le retail de qualité à Lomé. Nous nous engageons à offrir à nos clients des produits soigneusement sélectionnés, alliant qualité, style et prix abordables.</p>
+                <p>Notre mission est de rendre accessible à tous les produits de qualité supérieure tout en garantissant une expérience client exceptionnelle.</p>
+                
+                <div class="owner-info">
+                    <h3>Propriétaire: M. Koffi KOLA</h3>
+                    <p>Fondateur et passionné de commerce, M. KOLA supervise personnellement la sélection de chaque produit dans la boutique pour garantir votre satisfaction.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products" id="produits">
+            <h2 class="section-title">Nos Catégories de Produits</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Électronique">
+                    </div>
+                    <div class="product-info">
+                        <h3>Électronique</h3>
+                        <p>Smartphones, Accessoires</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Vêtements">
+                    </div>
+                    <div class="product-info">
+                        <h3>Vêtements</h3>
+                        <p>Mode Homme, Femme, Enfant</p>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Maison">
+                    </div>
+                    <div class="product-info">
+                        <h3>Articles Maison</h3>
+                        <p>Décoration, Utilitaires</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location Section -->
+        <section class="location" id="localisation">
+            <h2 class="section-title">Nous Trouver</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.2892158932!2d1.2154081759962003!3d6.131722293937132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1023e3931c3e3e1f%3A0x6f3b3266d36dd39d!2sLom%C3%A9%2C%20Togo!5e0!3m2!1sfr!2sfr!4v1689876543210!5m2!1sfr!2sfr" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="address">
+                <h3>Adresse de la Boutique</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Rue du Commerce, Avenue de la Libération</p>
+                <p>Lomé, Togo</p>
+                <p><i class="fas fa-clock"></i> Lundi - Samedi: 8h - 20h | Dimanche: 9h - 16h</p>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <h2 class="section-title">Nos Services</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Livraison Rapide</h3>
+                    <p>Nous livrons dans toute la ville de Lomé en moins de 24h</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Retours Gratuits</h3>
+                    <p>30 jours pour changer d'avis et retourner vos articles</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Support Client</h3>
+                    <p>Une équipe à votre écoute pour répondre à toutes vos questions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Management Section -->
+        <section class="management" id="gestion">
+            <h2>Espace Gestion des Ventes</h2>
+            <p>Accédez au système de gestion et d'analyse des ventes de la boutique</p>
+            <a href="gestion.html" class="btn">Accéder à la gestion</a>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Boutique KOLA</h3>
+                    <p>Votre destination shopping préférée à Lomé depuis 2010.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Liens Rapides</h3>
+                    <a href="#accueil">Accueil</a>
+                    <a href="#produits">Produits</a>
+                    <a href="#apropos">À Propos</a>
+                    <a href="#localisation">Localisation</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contactez-nous</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Rue du Commerce, Lomé, Togo</p>
+                    <p><i class="fas fa-phone"></i> +228 92 87 16 05</p>
+                    <p><i class="fas fa-envelope"></i> contact@boutiquekola.tg</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Horaires d'Ouverture</h3>
+                    <p>Lundi - Vendredi: 8h - 20h</p>
+                    <p>Samedi: 9h - 20h</p>
+                    <p>Dimanche: 9h - 16h</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Boutique KOLA - Tous droits réservés. Créé par M. Koffi KOLA</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
