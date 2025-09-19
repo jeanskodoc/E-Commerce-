@@ -495,6 +495,50 @@
             font-size: 14px;
             color: #777;
         }
+        
+        /* Boutons d'import/export */
+        .data-management {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .data-management button {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        
+        #import-json {
+            background-color: #17a2b8;
+        }
+        
+        #import-json:hover {
+            background-color: #138496;
+        }
+        
+        #export-json {
+            background-color: #28a745;
+        }
+        
+        #export-json:hover {
+            background-color: #218838;
+        }
+        
+        #reset-data {
+            background-color: #dc3545;
+        }
+        
+        #reset-data:hover {
+            background-color: #c82333;
+        }
+        
+        /* Input file caché */
+        #file-input {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -506,11 +550,11 @@
             <h2 class="auth-title">Authentification Requise</h2>
             <div class="form-group">
                 <label for="username">Identifiant</label>
-                <input type="text" id="username" placeholder="Votre identifiant">
+                <input type="text" id="username" placeholder="Votre identifiant" value="KOLA">
             </div>
             <div class="form-group">
                 <label for="password">Mot de passe</label>
-                <input type="password" id="password" placeholder="Votre mot de passe">
+                <input type="password" id="password" placeholder="Votre mot de passe" value="KOLA1@">
             </div>
             <button id="login-btn">Se connecter</button>
             <div id="auth-error" class="auth-error"></div>
@@ -623,6 +667,13 @@
                     </div>
                     
                     <button id="generate-qr">Générer le QR Code</button>
+                    
+                    <div class="data-management">
+                        <button id="import-json">Importer JSON</button>
+                        <button id="export-json">Exporter JSON</button>
+                        <button id="reset-data">Réinitialiser</button>
+                        <input type="file" id="file-input" accept=".json">
+                    </div>
                 </div>
                 
                 <div class="panel">
@@ -732,6 +783,12 @@
             const noJournalEntriesMessage = document.getElementById('no-journal-entries');
             const categoryStatsContainer = document.getElementById('category-stats-container');
             
+            // Nouveaux boutons
+            const importJsonBtn = document.getElementById('import-json');
+            const exportJsonBtn = document.getElementById('export-json');
+            const resetDataBtn = document.getElementById('reset-data');
+            const fileInput = document.getElementById('file-input');
+            
             // Identifiants de connexion
             const ADMIN_USERNAME = 'KOLA';
             const ADMIN_PASSWORD = 'KOLA1@';
@@ -795,8 +852,9 @@
             function showAuth() {
                 authContainer.classList.remove('hidden');
                 appContainer.classList.add('hidden');
-                usernameInput.value = '';
-                passwordInput.value = '';
+                // Pré-remplir avec les identifiants par défaut
+                usernameInput.value = ADMIN_USERNAME;
+                passwordInput.value = ADMIN_PASSWORD;
                 authError.textContent = '';
                 authSuccess.textContent = '';
             }
@@ -823,6 +881,12 @@
                 
                 // Impression
                 printAllBtn.addEventListener('click', printAllQrCodes);
+                
+                // Boutons d'import/export
+                importJsonBtn.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', importJson);
+                exportJsonBtn.addEventListener('click', exportJson);
+                resetDataBtn.addEventListener('click', resetData);
                 
                 // Filtres
                 document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
@@ -868,6 +932,89 @@
                         }
                     });
                 });
+            }
+            
+            // Fonction pour importer un fichier JSON
+            function importJson(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (data.products && data.salesHistory) {
+                            // Demander confirmation avant d'importer
+                            if (confirm("Voulez-vous vraiment importer ces données? Les données actuelles seront remplacées.")) {
+                                products = data.products;
+                                salesHistory = data.salesHistory;
+                                
+                                // Sauvegarder dans le localStorage
+                                localStorage.setItem('products', JSON.stringify(products));
+                                localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+                                
+                                // Mettre à jour l'interface
+                                renderQrCodes();
+                                updateDashboard();
+                                updateAllCharts();
+                                updateCategoryStats();
+                                renderSalesJournal();
+                                
+                                alert("Données importées avec succès!");
+                            }
+                        } else {
+                            alert("Le fichier JSON n'a pas le format attendu.");
+                        }
+                    } catch (error) {
+                        console.error("Erreur lors de l'importation:", error);
+                        alert("Erreur lors de l'importation du fichier JSON.");
+                    }
+                };
+                reader.readAsText(file);
+                
+                // Réinitialiser l'input file
+                event.target.value = '';
+            }
+            
+            // Fonction pour exporter les données en JSON
+            function exportJson() {
+                const data = {
+                    products: products,
+                    salesHistory: salesHistory,
+                    exportDate: new Date().toISOString()
+                };
+                
+                const dataStr = JSON.stringify(data, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = `export-data-${new Date().toISOString().slice(0, 10)}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            }
+            
+            // Fonction pour réinitialiser les données
+            function resetData() {
+                if (confirm("Êtes-vous sûr de vouloir réinitialiser toutes les données? Cette action est irréversible.")) {
+                    products = {};
+                    salesHistory = [];
+                    
+                    // Sauvegarder dans le localStorage
+                    localStorage.setItem('products', JSON.stringify(products));
+                    localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+                    
+                    // Mettre à jour l'interface
+                    renderQrCodes();
+                    updateDashboard();
+                    updateAllCharts();
+                    updateCategoryStats();
+                    renderSalesJournal();
+                    
+                    alert("Données réinitialisées avec succès!");
+                }
             }
             
             function initializeCharts() {
