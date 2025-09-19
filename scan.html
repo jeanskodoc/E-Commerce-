@@ -238,6 +238,7 @@
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
+            position: relative;
         }
         
         .qr-card:hover {
@@ -260,6 +261,23 @@
         
         .qr-card .price {
             color: #25D366;
+            font-weight: bold;
+        }
+        
+        /* Indicateur d'article vendu */
+        .sold-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
             font-weight: bold;
         }
         
@@ -444,6 +462,39 @@
         .logout-btn:hover {
             background-color: #cc0000;
         }
+        
+        /* Nouveau style pour les statistiques par catégorie */
+        .category-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .category-stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .category-stat-card h4 {
+            color: #128C7E;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .category-stat-card .value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #25D366;
+        }
+        
+        .category-stat-card .sub-value {
+            font-size: 14px;
+            color: #777;
+        }
     </style>
 </head>
 <body>
@@ -616,6 +667,7 @@
                 <button class="tab-btn active" data-tab="sales-analysis">Analyse des Ventes</button>
                 <button class="tab-btn" data-tab="stock-analysis">Analyse du Stock</button>
                 <button class="tab-btn" data-tab="category-analysis">Ventes par Catégorie</button>
+                <button class="tab-btn" data-tab="category-stats">Statistiques par Catégorie</button>
             </div>
             
             <div class="tab-content active" id="sales-analysis">
@@ -636,6 +688,13 @@
                 <h2 class="panel-title">Ventes par Catégorie</h2>
                 <div class="chart-container">
                     <canvas id="category-chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="category-stats">
+                <h2 class="panel-title">Statistiques par Catégorie</h2>
+                <div id="category-stats-container" class="category-stats">
+                    <!-- Les statistiques par catégorie seront générées ici -->
                 </div>
             </div>
         </div>
@@ -671,6 +730,7 @@
             const noQrCodesMessage = document.getElementById('no-qr-codes');
             const salesJournalContainer = document.getElementById('sales-journal');
             const noJournalEntriesMessage = document.getElementById('no-journal-entries');
+            const categoryStatsContainer = document.getElementById('category-stats-container');
             
             // Identifiants de connexion
             const ADMIN_USERNAME = 'KOLA';
@@ -747,6 +807,7 @@
                 setupEventListeners();
                 initializeCharts();
                 renderSalesJournal();
+                updateCategoryStats();
             }
             
             function setupEventListeners() {
@@ -802,6 +863,8 @@
                             updateStockChart();
                         } else if (tabId === 'category-analysis') {
                             updateCategoryChart();
+                        } else if (tabId === 'category-stats') {
+                            updateCategoryStats();
                         }
                     });
                 });
@@ -928,6 +991,56 @@
                 categoryChart.data.labels = Object.keys(salesByCategory);
                 categoryChart.data.datasets[0].data = Object.values(salesByCategory);
                 categoryChart.update();
+            }
+            
+            function updateCategoryStats() {
+                // Calculer les statistiques par catégorie
+                const statsByCategory = {};
+                
+                // Initialiser les catégories
+                const categories = ['électronique', 'vêtements', 'alimentation', 'maison', 'autre'];
+                categories.forEach(cat => {
+                    statsByCategory[cat] = {
+                        total: 0,
+                        sold: 0,
+                        stock: 0,
+                        revenue: 0
+                    };
+                });
+                
+                // Remplir les statistiques
+                for (const id in products) {
+                    const product = products[id];
+                    if (statsByCategory[product.category]) {
+                        statsByCategory[product.category].total += 1;
+                        statsByCategory[product.category].sold += product.sold || 0;
+                        statsByCategory[product.category].stock += product.quantity || 1;
+                        statsByCategory[product.category].revenue += (product.sold || 0) * product.price;
+                    }
+                }
+                
+                // Générer les cartes de statistiques
+                categoryStatsContainer.innerHTML = '';
+                
+                for (const category in statsByCategory) {
+                    const stats = statsByCategory[category];
+                    if (stats.total > 0) {
+                        const card = document.createElement('div');
+                        card.className = 'category-stat-card';
+                        card.innerHTML = `
+                            <h4>${category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+                            <div class="value">${stats.sold} / ${stats.stock}</div>
+                            <div class="sub-value">Vendus / Stock</div>
+                            <div class="value">${stats.revenue.toLocaleString()} FCFA</div>
+                            <div class="sub-value">Chiffre d'affaires</div>
+                        `;
+                        categoryStatsContainer.appendChild(card);
+                    }
+                }
+                
+                if (categoryStatsContainer.children.length === 0) {
+                    categoryStatsContainer.innerHTML = '<p>Aucune donnée disponible par catégorie</p>';
+                }
             }
             
             function updateDashboard() {
@@ -1187,6 +1300,7 @@
                 // Mettre à jour les graphiques et le tableau de bord
                 updateDashboard();
                 updateAllCharts();
+                updateCategoryStats();
             }
             
             // Afficher les QR codes avec filtres
@@ -1207,13 +1321,21 @@
                         qrCodeDiv.dataset.category = product.category;
                         qrCodeDiv.dataset.week = product.week;
                         
+                        // Ajouter un badge si le produit est vendu
+                        if (product.quantity <= 0) {
+                            const soldBadge = document.createElement('div');
+                            soldBadge.className = 'sold-badge';
+                            soldBadge.innerHTML = 'Vendu';
+                            qrCodeDiv.appendChild(soldBadge);
+                        }
+                        
                         QRCode.toDataURL(JSON.stringify(product), { width: 150, margin: 1 }, function(err, url) {
                             if (err) {
                                 console.error(err);
                                 return;
                             }
                             
-                            qrCodeDiv.innerHTML = `
+                            qrCodeDiv.innerHTML += `
                                 <img src="${url}" alt="QR Code">
                                 <p>${product.name}</p>
                                 <p class="price">${product.price.toLocaleString()} FCFA</p>
@@ -1297,6 +1419,18 @@
                     if (products[item.id]) {
                         products[item.id].quantity -= item.quantity;
                         products[item.id].sold = (products[item.id].sold || 0) + item.quantity;
+                        
+                        // Supprimer le QR code si le stock est épuisé
+                        if (products[item.id].quantity <= 0) {
+                            // Marquer le produit comme vendu (suppression visuelle)
+                            const qrCard = document.querySelector(`.qr-card[data-category="${products[item.id].category}"][data-week="${products[item.id].week}"]`);
+                            if (qrCard) {
+                                const soldBadge = document.createElement('div');
+                                soldBadge.className = 'sold-badge';
+                                soldBadge.innerHTML = 'Vendu';
+                                qrCard.appendChild(soldBadge);
+                            }
+                        }
                     }
                 });
                 
@@ -1322,6 +1456,7 @@
                 // Mettre à jour l'interface
                 updateDashboard();
                 updateAllCharts();
+                updateCategoryStats();
                 renderSalesJournal();
                 renderQrCodes();
                 
