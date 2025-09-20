@@ -31,6 +31,7 @@
             color: white;
             padding: 20px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         
         .header-content {
@@ -68,6 +69,54 @@
         .brand-slogan {
             font-size: 16px;
             opacity: 0.9;
+        }
+        
+        /* Admin Button in Header */
+        .admin-header-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .admin-header-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Admin Button Floating */
+        .admin-btn {
+            position: fixed;
+            top: 150px;
+            right: 20px;
+            z-index: 1000;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-btn:hover {
+            background-color: #ee5253;
+            transform: scale(1.1);
+        }
+        
+        .admin-btn i {
+            font-size: 24px;
         }
         
         /* Navigation */
@@ -145,6 +194,81 @@
         .btn-outline:hover {
             background-color: white;
             color: #25D366;
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 220px;
+            right: 20px;
+            z-index: 1000;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+        }
+        
+        .admin-panel h3 {
+            color: #128C7E;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .admin-panel input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .admin-panel button {
+            width: 100%;
+            padding: 12px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .admin-panel button:hover {
+            background-color: #128C7E;
+        }
+        
+        .admin-links {
+            display: none;
+            position: fixed;
+            top: 220px;
+            right: 20px;
+            z-index: 1000;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 250px;
+        }
+        
+        .admin-links a {
+            display: block;
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .admin-links a:hover {
+            background-color: #25D366;
+            color: white;
         }
         
         /* About Section */
@@ -422,6 +546,22 @@
             .hero p {
                 font-size: 16px;
             }
+            
+            .admin-btn {
+                top: 130px;
+                right: 10px;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .admin-panel, .admin-links {
+                right: 10px;
+                width: 280px;
+            }
+            
+            .admin-header-btn {
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -440,6 +580,9 @@
                 <div class="contact-info">
                     <p><i class="fas fa-phone"></i> +228 92 87 16 05</p>
                     <p><i class="fas fa-envelope"></i> jeanskodoc22@gmail.com</p>
+                    <button class="admin-header-btn" id="adminHeaderButton">
+                        <i class="fas fa-lock"></i> Admin
+                    </button>
                 </div>
             </div>
         </div>
@@ -458,6 +601,26 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Admin Button -->
+    <button class="admin-btn" id="adminButton">
+        <i class="fas fa-lock"></i>
+    </button>
+
+    <!-- Admin Login Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <h3>Connexion Administrateur</h3>
+        <input type="text" id="adminUsername" placeholder="Nom d'utilisateur">
+        <input type="password" id="adminPassword" placeholder="Mot de passe">
+        <button onclick="loginAdmin()">Se connecter</button>
+    </div>
+
+    <!-- Admin Links Panel -->
+    <div class="admin-links" id="adminLinks">
+        <h3>Gestion Inventaire</h3>
+        <a href="inventaire.html" target="_blank">Accéder à l'inventaire</a>
+        <a href="#" onclick="logoutAdmin()">Déconnexion</a>
+    </div>
 
     <!-- Main Content -->
     <div class="container">
@@ -617,5 +780,96 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Fonctions pour la gestion de l'interface administrateur
+        document.getElementById('adminButton').addEventListener('click', function() {
+            toggleAdminPanel();
+        });
+        
+        document.getElementById('adminHeaderButton').addEventListener('click', function() {
+            toggleAdminPanel();
+        });
+
+        function toggleAdminPanel() {
+            const adminLinks = document.getElementById('adminLinks');
+            const adminPanel = document.getElementById('adminPanel');
+            
+            // Vérifier si l'utilisateur est déjà connecté
+            if (localStorage.getItem('adminLoggedIn') === 'true') {
+                // Basculer l'affichage du panneau d'administration
+                if (adminLinks.style.display === 'block') {
+                    adminLinks.style.display = 'none';
+                } else {
+                    adminLinks.style.display = 'block';
+                    adminPanel.style.display = 'none';
+                }
+            } else {
+                // Afficher le panneau de connexion
+                if (adminPanel.style.display === 'block') {
+                    adminPanel.style.display = 'none';
+                } else {
+                    adminPanel.style.display = 'block';
+                    adminLinks.style.display = 'none';
+                }
+            }
+        }
+
+        // Fonction de connexion administrateur
+        function loginAdmin() {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // Vérification simple des identifiants (à remplacer par une vérification sécurisée en production)
+            if (username === 'admin' && password === 'admin123') {
+                localStorage.setItem('adminLoggedIn', 'true');
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('adminLinks').style.display = 'block';
+                document.getElementById('adminButton').style.backgroundColor = '#25D366';
+                document.getElementById('adminHeaderButton').style.backgroundColor = '#25D366';
+                document.getElementById('adminHeaderButton').style.borderColor = '#25D366';
+            } else {
+                alert('Identifiants incorrects. Veuillez réessayer.');
+            }
+        }
+
+        // Fonction de déconnexion
+        function logoutAdmin() {
+            localStorage.removeItem('adminLoggedIn');
+            document.getElementById('adminLinks').style.display = 'none';
+            document.getElementById('adminButton').style.backgroundColor = '#ff6b6b';
+            document.getElementById('adminHeaderButton').style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            document.getElementById('adminHeaderButton').style.borderColor = 'rgba(255, 255, 255, 0.5)';
+        }
+
+        // Fonctions d'administration (à implémenter selon les besoins)
+        function addProduct() {
+            alert('Fonctionnalité "Ajouter un produit" à implémenter.');
+        }
+
+        function editProduct() {
+            alert('Fonctionnalité "Modifier un produit" à implémenter.');
+        }
+
+        function generateReport() {
+            alert('Fonctionnalité "Générer un rapport" à implémenter.');
+        }
+
+        // Masquer les panneaux d'administration en cliquant à l'extérieur
+        document.addEventListener('click', function(event) {
+            const adminButton = document.getElementById('adminButton');
+            const adminHeaderButton = document.getElementById('adminHeaderButton');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminLinks = document.getElementById('adminLinks');
+            
+            if (!adminButton.contains(event.target) && 
+                !adminHeaderButton.contains(event.target) && 
+                !adminPanel.contains(event.target) && 
+                !adminLinks.contains(event.target)) {
+                adminPanel.style.display = 'none';
+                adminLinks.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
