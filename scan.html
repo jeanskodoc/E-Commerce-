@@ -1,20 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -554,25 +539,40 @@
         #file-input {
             display: none;
         }
+        
+        .btn-retour {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-retour:hover {
+            background-color: #e0e0e0;
+        }
     </style>
 </head>
-    <button class="btn-retour" onclick="history.back()">← Retour</button>
 <body>
+    <button class="btn-retour" onclick="history.back()">← Retour</button>
+    
     <div class="auth-container" id="auth-container">
         <div class="auth-box">
             <div class="auth-logo">
                 <i class="fas fa-store"></i> KOLA SHOP
             </div>
             <h2 class="auth-title">Authentification Requise</h2>
-            <div class="form-group">
-                <label for="username">Identifiant</label>
-                <input type="text" id="username" placeholder="Votre identifiant" value="KOLA">
-            </div>
-            <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" placeholder="Votre mot de passe" value="KOLA1@">
-            </div>
-            <button id="login-btn">Se connecter</button>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Identifiant</label>
+                    <input type="text" id="username" placeholder="Votre identifiant" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" placeholder="Votre mot de passe" required>
+                </div>
+                <button type="submit" id="login-btn">Se connecter</button>
+            </form>
             <div id="auth-error" class="auth-error"></div>
             <div id="auth-success" class="auth-success"></div>
         </div>
@@ -776,6 +776,7 @@
             // Références aux éléments DOM
             const authContainer = document.getElementById('auth-container');
             const appContainer = document.getElementById('app-container');
+            const loginForm = document.getElementById('login-form');
             const usernameInput = document.getElementById('username');
             const passwordInput = document.getElementById('password');
             const loginBtn = document.getElementById('login-btn');
@@ -831,7 +832,9 @@
             }
             
             // Gestion de l'authentification
-            loginBtn.addEventListener('click', function() {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
                 const username = usernameInput.value;
                 const password = passwordInput.value;
                 
@@ -868,9 +871,9 @@
             function showAuth() {
                 authContainer.classList.remove('hidden');
                 appContainer.classList.add('hidden');
-                // Pré-remplir avec les identifiants par défaut
-                usernameInput.value = ADMIN_USERNAME;
-                passwordInput.value = ADMIN_PASSWORD;
+                // Vider les champs d'authentification
+                usernameInput.value = '';
+                passwordInput.value = '';
                 authError.textContent = '';
                 authSuccess.textContent = '';
             }
