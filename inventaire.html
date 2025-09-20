@@ -134,6 +134,14 @@
             background-color: #e67e22;
         }
         
+        .btn-exit {
+            background-color: #9b59b6;
+        }
+        
+        .btn-exit:hover {
+            background-color: #8e44ad;
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -308,6 +316,10 @@
             margin-left: auto;
         }
         
+        .exit-btn {
+            margin-left: 10px;
+        }
+        
         .best-seller-card {
             background: linear-gradient(135deg, #fff6e6, #fff);
             border-left: 5px solid var(--warning);
@@ -340,7 +352,7 @@
                 align-items: flex-start;
             }
             
-            .reset-btn {
+            .reset-btn, .exit-btn {
                 margin-left: 0;
                 margin-top: 10px;
             }
@@ -377,6 +389,7 @@
                 </select>
             </div>
             <button class="btn-danger reset-btn" onclick="resetSystem()"><i class="fas fa-trash"></i> Réinitialiser le système</button>
+            <button class="btn-exit exit-btn" onclick="exitPage()"><i class="fas fa-door-open"></i> Quitter</button>
         </div>
         
         <div class="summary-cards">
@@ -633,9 +646,6 @@
                                 <p id="bankruptcy-culprits"></p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1316,7 +1326,7 @@
                         articleCount[sale.article] += sale.quantity;
                     });
                     
-                    // Trouver l'article le plus vendu
+                    // Trouver l'article le mais vendu
                     let bestArticle = null;
                     let maxCount = 0;
                     
@@ -1460,6 +1470,21 @@
             }
         }
         
+        function exitPage() {
+            if (confirm('Êtes-vous sûr de vouloir quitter cette page?')) {
+                // Message de confirmation
+                alert('Merci d\'avoir utilisé notre système de gestion des ventes. À bientôt!');
+                
+                // Redirection vers une page d'accueil ou fermeture
+                try {
+                    window.close();
+                } catch (e) {
+                    // Si la fenêtre ne peut pas être fermée, on redirige
+                    window.location.href = 'about:blank';
+                }
+            }
+        }
+        
         function resetSystem() {
             if (confirm('Êtes-vous sûr de vouloir réinitialiser tout le système? Toutes les données seront perdues.')) {
                 // Réinitialiser les ventes
@@ -1485,7 +1510,7 @@
                     ],
                     vetements: [
                         { name: "T-shirt", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 50, minStock: 20 },
-                        { name: "Jean", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(49.99), stock: 30, minStock: 15 },
+                        { name: "Jean", purchasePrice: convertTo极FA(25), salePrice: convertToFCFA(49.99), stock: 30, minStock: 15 },
                         { name: "Robe", purchasePrice: convertToFCFA(30), salePrice: convertToFCFA(59.99), stock: 18, minStock: 8 },
                         { name: "Veste", purchasePrice: convertToFCFA(45), salePrice: convertToFCFA(89.99), stock: 15, minStock: 5 }
                     ],
@@ -1497,7 +1522,7 @@
                     ],
                     maison: [
                         { name: "Lampe de bureau", purchasePrice: convertToFCFA(15), salePrice: convertToFCFA(29.99), stock: 20, minStock: 8 },
-                        { name: "Set de cuisine", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(39.99), stock: 12, minStock: 5 },
+                        { name: "Set de cuisine", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(39.99), stock: 极2, minStock: 5 },
                         { name: "Oreiller", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 25, minStock: 10 },
                         { name: "Serviettes", purchasePrice: convertToFCFA(7), salePrice: convertToFCFA(12.99), stock: 30, minStock: 12 }
                     ],
