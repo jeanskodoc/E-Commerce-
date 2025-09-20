@@ -382,12 +382,12 @@
         <div class="summary-cards">
             <div class="summary-card">
                 <h3>Chiffre d'Affaires Total</h3>
-                <div class="value" id="total-revenue">0.00 €</div>
+                <div class="value" id="total-revenue">0.00 FCFA</div>
                 <div class="compare" id="revenue-comparison"></div>
             </div>
             <div class="summary-card">
                 <h3>Bénéfice Net</h3>
-                <div class="value" id="total-profit">0.00 €</div>
+                <div class="value" id="total-profit">0.00 FCFA</div>
                 <div class="compare" id="profit-comparison"></div>
             </div>
             <div class="summary-card">
@@ -444,7 +444,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="price">Prix unitaire (€)</label>
+                            <label for="price">Prix unitaire (FCFA)</label>
                             <input type="number" id="price" step="0.01" min="0" readonly>
                         </div>
                         
@@ -454,7 +454,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="total">Total (€)</label>
+                            <label for="total">Total (FCFA)</label>
                             <input type="number" id="total" step="0.01" min="0" readonly>
                         </div>
                         
@@ -509,12 +509,12 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="purchase-price">Prix d'achat (€)</label>
+                            <label for="purchase-price">Prix d'achat (FCFA)</label>
                             <input type="number" id="purchase-price" step="0.01" min="0" required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="sale-price">Prix de vente (€)</label>
+                            <label for="sale-price">Prix de vente (FCFA)</label>
                             <input type="number" id="sale-price" step="0.01" min="0" required>
                         </div>
                         
@@ -640,37 +640,50 @@
     </div>
 
     <script>
-        // Données des articles par catégorie
+        // Taux de conversion Euro vers FCFA (fixe)
+        const EURO_TO_FCFA = 655.957;
+        
+        // Fonction pour convertir les euros en FCFA
+        function convertToFCFA(euroAmount) {
+            return euroAmount * EURO_TO_FCFA;
+        }
+        
+        // Fonction pour formater les montants en FCFA
+        function formatFCFA(amount) {
+            return amount.toFixed(0) + ' FCFA';
+        }
+        
+        // Données des articles par catégorie (converties en FCFA)
         let articlesByCategory = {
             electronique: [
-                { name: "Smartphone", purchasePrice: 350, salePrice: 499.99, stock: 15, minStock: 5 },
-                { name: "Ordinateur portable", purchasePrice: 650, salePrice: 899.99, stock: 8, minStock: 3 },
-                { name: "Écouteurs sans fil", purchasePrice: 80, salePrice: 129.99, stock: 20, minStock: 10 },
-                { name: "Tablette", purchasePrice: 220, salePrice: 349.99, stock: 12, minStock: 4 }
+                { name: "Smartphone", purchasePrice: convertToFCFA(350), salePrice: convertToFCFA(499.99), stock: 15, minStock: 5 },
+                { name: "Ordinateur portable", purchasePrice: convertToFCFA(650), salePrice: convertToFCFA(899.99), stock: 8, minStock: 3 },
+                { name: "Écouteurs sans fil", purchasePrice: convertToFCFA(80), salePrice: convertToFCFA(129.99), stock: 20, minStock: 10 },
+                { name: "Tablette", purchasePrice: convertToFCFA(220), salePrice: convertToFCFA(349.99), stock: 12, minStock: 4 }
             ],
             vetements: [
-                { name: "T-shirt", purchasePrice: 8, salePrice: 19.99, stock: 50, minStock: 20 },
-                { name: "Jean", purchasePrice: 25, salePrice: 49.99, stock: 30, minStock: 15 },
-                { name: "Robe", purchasePrice: 30, salePrice: 59.99, stock: 18, minStock: 8 },
-                { name: "Veste", purchasePrice: 45, salePrice: 89.99, stock: 15, minStock: 5 }
+                { name: "T-shirt", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 50, minStock: 20 },
+                { name: "Jean", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(49.99), stock: 30, minStock: 15 },
+                { name: "Robe", purchasePrice: convertToFCFA(30), salePrice: convertToFCFA(59.99), stock: 18, minStock: 8 },
+                { name: "Veste", purchasePrice: convertToFCFA(45), salePrice: convertToFCFA(89.99), stock: 15, minStock: 5 }
             ],
             alimentation: [
-                { name: "Panier de fruits", purchasePrice: 10, salePrice: 15.99, stock: 25, minStock: 10 },
-                { name: "Pack d'eau", purchasePrice: 2.5, salePrice: 4.99, stock: 40, minStock: 20 },
-                { name: "Sachet de café", purchasePrice: 4, salePrice: 7.99, stock: 30, minStock: 15 },
-                { name: "Boîte de céréales", purchasePrice: 1.8, salePrice: 3.49, stock: 35, minStock: 18 }
+                { name: "Panier de fruits", purchasePrice: convertToFCFA(10), salePrice: convertToFCFA(15.99), stock: 25, minStock: 10 },
+                { name: "Pack d'eau", purchasePrice: convertToFCFA(2.5), salePrice: convertToFCFA(4.99), stock: 40, minStock: 20 },
+                { name: "Sachet de café", purchasePrice: convertToFCFA(4), salePrice: convertToFCFA(7.99), stock: 30, minStock: 15 },
+                { name: "Boîte de céréales", purchasePrice: convertToFCFA(1.8), salePrice: convertToFCFA(3.49), stock: 35, minStock: 18 }
             ],
             maison: [
-                { name: "Lampe de bureau", purchasePrice: 15, salePrice: 29.99, stock: 20, minStock: 8 },
-                { name: "Set de cuisine", purchasePrice: 25, salePrice: 39.99, stock: 12, minStock: 5 },
-                { name: "Oreiller", purchasePrice: 8, salePrice: 19.99, stock: 25, minStock: 10 },
-                { name: "Serviettes", purchasePrice: 7, salePrice: 12.99, stock: 30, minStock: 12 }
+                { name: "Lampe de bureau", purchasePrice: convertToFCFA(15), salePrice: convertToFCFA(29.99), stock: 20, minStock: 8 },
+                { name: "Set de cuisine", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(39.99), stock: 12, minStock: 5 },
+                { name: "Oreiller", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 25, minStock: 10 },
+                { name: "Serviettes", purchasePrice: convertToFCFA(7), salePrice: convertToFCFA(12.99), stock: 30, minStock: 12 }
             ],
             sport: [
-                { name: "Ballon de football", purchasePrice: 12, salePrice: 24.99, stock: 18, minStock: 8 },
-                { name: "Tenue de sport", purchasePrice: 18, salePrice: 34.99, stock: 15, minStock: 6 },
-                { name: "Bouteille d'eau", purchasePrice: 5, salePrice: 9.99, stock: 25, minStock: 12 },
-                { name: "Corde à sauter", purchasePrice: 7, salePrice: 14.99, stock: 20, minStock: 10 }
+                { name: "Ballon de football", purchasePrice: convertToFCFA(12), salePrice: convertToFCFA(24.99), stock: 18, minStock: 8 },
+                { name: "Tenue de sport", purchasePrice: convertToFCFA(18), salePrice: convertToFCFA(34.99), stock: 15, minStock: 6 },
+                { name: "Bouteille d'eau", purchasePrice: convertToFCFA(5), salePrice: convertToFCFA(9.99), stock: 25, minStock: 12 },
+                { name: "Corde à sauter", purchasePrice: convertToFCFA(7), salePrice: convertToFCFA(14.99), stock: 20, minStock: 10 }
             ]
         };
         
@@ -689,10 +702,10 @@
         // Mois en cours
         let currentMonth = new Date().getMonth();
         
-        // Historique des mois précédents (pour comparaison)
+        // Historique des mois précédents (pour comparaison) - converti en FCFA
         const previousMonths = {
-            revenue: 12500,
-            profit: 4200,
+            revenue: convertToFCFA(12500),
+            profit: convertToFCFA(4200),
             salesCount: 285
         };
         
@@ -842,7 +855,7 @@
             const quantity = parseInt(document.getElementById('quantity').value) || 0;
             const total = price * quantity;
             
-            document.getElementById('total').value = total.toFixed(2);
+            document.getElementById('total').value = total.toFixed(0);
         }
         
         function addSale() {
@@ -996,9 +1009,9 @@
                 row.innerHTML = `
                     <td>${sale.sellerName}</td>
                     <td>${sale.article}</td>
-                    <td>${sale.price.toFixed(2)} €</td>
+                    <td>${formatFCFA(sale.price)}</td>
                     <td>${sale.quantity}</td>
-                    <td>${sale.total.toFixed(2)} €</td>
+                    <td>${formatFCFA(sale.total)}</td>
                     <td>${sale.date}</td>
                     <td class="actions">
                         <button class="btn-danger btn-icon" onclick="removeSale(${sale.id})"><i class="fas fa-trash"></i></button>
@@ -1100,10 +1113,10 @@
                     row.innerHTML = `
                         <td>${article.name}</td>
                         <td>${category}</td>
-                        <td>${article.purchasePrice.toFixed(2)} €</td>
-                        <td>${article.salePrice.toFixed(2)} €</td>
+                        <td>${formatFCFA(article.purchasePrice)}</td>
+                        <td>${formatFCFA(article.salePrice)}</td>
                         <td class="${article.stock <= article.minStock ? (article.stock === 0 ? 'stock-alert' : 'stock-warning') : ''}">${article.stock}</td>
-                        <td>${value.toFixed(2)} €</td>
+                        <td>${formatFCFA(value)}</td>
                         <td>${status}</td>
                     `;
                     tableBody.appendChild(row);
@@ -1132,11 +1145,11 @@
             
             // Calculer le chiffre d'affaires total du mois
             const totalRevenue = monthlySales.reduce((sum, sale) => sum + sale.total, 0);
-            document.getElementById('total-revenue').textContent = totalRevenue.toFixed(2) + ' €';
+            document.getElementById('total-revenue').textContent = formatFCFA(totalRevenue);
             
             // Calculer le bénéfice total du mois
             const totalProfit = monthlySales.reduce((sum, sale) => sum + sale.profit, 0);
-            document.getElementById('total-profit').textContent = totalProfit.toFixed(2) + ' €';
+            document.getElementById('total-profit').textContent = formatFCFA(totalProfit);
             
             // Nombre de ventes du mois
             document.getElementById('month-sales').textContent = monthlySales.length;
@@ -1165,7 +1178,7 @@
             });
             
             document.getElementById('best-seller').textContent = bestSeller || '-';
-            document.getElementById('best-seller-sales').textContent = maxRevenue.toFixed(2) + ' € de ventes';
+            document.getElementById('best-seller-sales').textContent = formatFCFA(maxRevenue) + ' de ventes';
             
             // Comparaisons avec le mois précédent
             const revenueComparison = ((totalRevenue - previousMonths.revenue) / previousMonths.revenue * 100).toFixed(1);
@@ -1224,8 +1237,8 @@
                     <td>${index + 1}</td>
                     <td>${seller.name}</td>
                     <td>${seller.sales}</td>
-                    <td>${seller.revenue.toFixed(2)} €</td>
-                    <td>${seller.profit.toFixed(2)} €</td>
+                    <td>${formatFCFA(seller.revenue)}</td>
+                    <td>${formatFCFA(seller.profit)}</td>
                     <td>${performanceBadge}</td>
                 `;
                 rankingBody.appendChild(row);
@@ -1275,8 +1288,8 @@
                 row.innerHTML = `
                     <td>${product.name} (${product.category})</td>
                     <td>${product.quantity}</td>
-                    <td>${product.revenue.toFixed(2)} €</td>
-                    <td>${product.profit.toFixed(2)} €</td>
+                    <td>${formatFCFA(product.revenue)}</td>
+                    <td>${formatFCFA(product.profit)}</td>
                 `;
                 topProductsBody.appendChild(row);
             });
@@ -1320,8 +1333,8 @@
                     card.innerHTML = `
                         <h3>${sellers[sellerId].name}</h3>
                         <p><strong>Article le plus vendu:</strong> ${bestArticle} (${maxCount} unités)</p>
-                        <p><strong>Chiffre d'affaires:</strong> ${sellers[sellerId].revenue.toFixed(2)} €</p>
-                        <p><strong>Bénéfice généré:</strong> ${sellers[sellerId].profit.toFixed(2)} €</p>
+                        <p><strong>Chiffre d'affaires:</strong> ${formatFCFA(sellers[sellerId].revenue)}</p>
+                        <p><strong>Bénéfice généré:</strong> ${formatFCFA(sellers[sellerId].profit)}</p>
                     `;
                     container.appendChild(card);
                 }
@@ -1364,7 +1377,7 @@
                 data: {
                     labels: [],
                     datasets: [{
-                        label: 'Chiffre d\'Affaires (€)',
+                        label: 'Chiffre d\'Affaires (FCFA)',
                         data: [],
                         backgroundColor: '#3498db'
                     }]
@@ -1422,7 +1435,7 @@
             // Vérifier les conditions de faillite
             if (totalProfit < 0) {
                 bankruptcyAlert.style.display = 'block';
-                bankruptcyReason.textContent = `Le bénéfice total est négatif (${totalProfit.toFixed(2)} €). L'entreprise est en situation de faillite.`;
+                bankruptcyReason.textContent = `Le bénéfice total est négatif (${formatFCFA(totalProfit)}). L'entreprise est en situation de faillite.`;
                 
                 // Identifier les vendeurs avec les plus mauvaises performances
                 const sellersArray = Object.keys(sellers).map(id => {
@@ -1462,37 +1475,37 @@
                     sellers[sellerId].profit = 0;
                 }
                 
-                // Réinitialiser les articles aux valeurs par défaut
+                // Réinitialiser les articles aux valeurs par défaut (converties en FCFA)
                 articlesByCategory = {
                     electronique: [
-                        { name: "Smartphone", purchasePrice: 350, salePrice: 499.99, stock: 15, minStock: 5 },
-                        { name: "Ordinateur portable", purchasePrice: 650, salePrice: 899.99, stock: 8, minStock: 3 },
-                        { name: "Écouteurs sans fil", purchasePrice: 80, salePrice: 129.99, stock: 20, minStock: 10 },
-                        { name: "Tablette", purchasePrice: 220, salePrice: 349.99, stock: 12, minStock: 4 }
+                        { name: "Smartphone", purchasePrice: convertToFCFA(350), salePrice: convertToFCFA(499.99), stock: 15, minStock: 5 },
+                        { name: "Ordinateur portable", purchasePrice: convertToFCFA(650), salePrice: convertToFCFA(899.99), stock: 8, minStock: 3 },
+                        { name: "Écouteurs sans fil", purchasePrice: convertToFCFA(80), salePrice: convertToFCFA(129.99), stock: 20, minStock: 10 },
+                        { name: "Tablette", purchasePrice: convertToFCFA(220), salePrice: convertToFCFA(349.99), stock: 12, minStock: 4 }
                     ],
                     vetements: [
-                        { name: "T-shirt", purchasePrice: 8, salePrice: 19.99, stock: 50, minStock: 20 },
-                        { name: "Jean", purchasePrice: 25, salePrice: 49.99, stock: 30, minStock: 15 },
-                        { name: "Robe", purchasePrice: 30, salePrice: 59.99, stock: 18, minStock: 8 },
-                        { name: "Veste", purchasePrice: 45, salePrice: 89.99, stock: 15, minStock: 5 }
+                        { name: "T-shirt", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 50, minStock: 20 },
+                        { name: "Jean", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(49.99), stock: 30, minStock: 15 },
+                        { name: "Robe", purchasePrice: convertToFCFA(30), salePrice: convertToFCFA(59.99), stock: 18, minStock: 8 },
+                        { name: "Veste", purchasePrice: convertToFCFA(45), salePrice: convertToFCFA(89.99), stock: 15, minStock: 5 }
                     ],
                     alimentation: [
-                        { name: "Panier de fruits", purchasePrice: 10, salePrice: 15.99, stock: 25, minStock: 10 },
-                        { name: "Pack d'eau", purchasePrice: 2.5, salePrice: 4.99, stock: 40, minStock: 20 },
-                        { name: "Sachet de café", purchasePrice: 4, salePrice: 7.99, stock: 30, minStock: 15 },
-                        { name: "Boîte de céréales", purchasePrice: 1.8, salePrice: 3.49, stock: 35, minStock: 18 }
+                        { name: "Panier de fruits", purchasePrice: convertToFCFA(10), salePrice: convertToFCFA(15.99), stock: 25, minStock: 10 },
+                        { name: "Pack d'eau", purchasePrice: convertToFCFA(2.5), salePrice: convertToFCFA(4.99), stock: 40, minStock: 20 },
+                        { name: "Sachet de café", purchasePrice: convertToFCFA(4), salePrice: convertToFCFA(7.99), stock: 30, minStock: 15 },
+                        { name: "Boîte de céréales", purchasePrice: convertToFCFA(1.8), salePrice: convertToFCFA(3.49), stock: 35, minStock: 18 }
                     ],
                     maison: [
-                        { name: "Lampe de bureau", purchasePrice: 15, salePrice: 29.99, stock: 20, minStock: 8 },
-                        { name: "Set de cuisine", purchasePrice: 25, salePrice: 39.99, stock: 12, minStock: 5 },
-                        { name: "Oreiller", purchasePrice: 8, salePrice: 19.99, stock: 25, minStock: 10 },
-                        { name: "Serviettes", purchasePrice: 7, salePrice: 12.99, stock: 30, minStock: 12 }
+                        { name: "Lampe de bureau", purchasePrice: convertToFCFA(15), salePrice: convertToFCFA(29.99), stock: 20, minStock: 8 },
+                        { name: "Set de cuisine", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(39.99), stock: 12, minStock: 5 },
+                        { name: "Oreiller", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 25, minStock: 10 },
+                        { name: "Serviettes", purchasePrice: convertToFCFA(7), salePrice: convertToFCFA(12.99), stock: 30, minStock: 12 }
                     ],
                     sport: [
-                        { name: "Ballon de football", purchasePrice: 12, salePrice: 24.99, stock: 18, minStock: 8 },
-                        { name: "Tenue de sport", purchasePrice: 18, salePrice: 34.99, stock: 15, minStock: 6 },
-                        { name: "Bouteille d'eau", purchasePrice: 5, salePrice: 9.99, stock: 25, minStock: 12 },
-                        { name: "Corde à sauter", purchasePrice: 7, salePrice: 14.99, stock: 20, minStock: 10 }
+                        { name: "Ballon de football", purchasePrice: convertToFCFA(12), salePrice: convertToFCFA(24.99), stock: 18, minStock: 8 },
+                        { name: "Tenue de sport", purchasePrice: convertToFCFA(18), salePrice: convertToFCFA(34.99), stock: 15, minStock: 6 },
+                        { name: "Bouteille d'eau", purchasePrice: convertToFCFA(5), salePrice: convertToFCFA(9.99), stock: 25, minStock: 12 },
+                        { name: "Corde à sauter", purchasePrice: convertToFCFA(7), salePrice: convertToFCFA(14.99), stock: 20, minStock: 10 }
                     ]
                 };
                 
