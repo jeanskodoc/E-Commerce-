@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande en Ligne - Paiement T-Money/Yas & Flooz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --whatsapp: #25D366;
+            --tmoney: #FF6B00;
+            --flooz: #00A650;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .description {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .category-btn {
+            padding: 12px 20px;
+            background: var(--light);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+        
+        .product-card.selected {
+            border-color: var(--success);
+        }
+        
+        .product-image {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 50px;
+        }
+        
+        .electronique { background: linear-gradient(45deg, #3498db, #2c3e50); }
+        .vetements { background: linear-gradient(45deg, #e74c3c, #c0392b); }
+        .alimentation { background: linear-gradient(45deg, #2ecc71, #27ae60); }
+        .maison { background: linear-gradient(45deg, #f39c12, #d35400); }
+        .sport { background: linear-gradient(45deg, #9b59b6, #8e44ad); }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .quantity-btn {
+            background: var(--light);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        
+        .summary {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-whatsapp {
+            background: var(--whatsapp);
+            color: white;
+        }
+        
+        .btn-tmoney {
+            background: var(--tmoney);
+            color: white;
+        }
+        
+        .btn-flooz {
+            background: var(--flooz);
+            color: white;
+        }
+        
+        .payment-info {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .payment-info p {
+            margin-bottom: 10px;
+        }
+        
+        .payment-info ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .modal-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .modal-btn-tmoney {
+            background: var(--tmoney);
+            color: white;
+        }
+        
+        .modal-btn-flooz {
+            background: var(--flooz);
+            color: white;
+        }
+        
+        .modal-btn-cancel {
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        .app-download {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .app-download a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .app-download a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--light);
+            color: var(--dark);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .categories {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-container input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .currency {
+            font-size: 0.9em;
+            margin-left: 2px;
+        }
+        
+        .payment-steps {
+            text-align: left;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .payment-steps ol {
+            padding-left: 20px;
+        }
+        
+        .payment-steps li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-store"></i> Commande en Ligne</h1>
+            <p class="description">Commandez vos articles préférés et payez par T-Money/Yas ou Flooz</p>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <h2><i class="fas fa-user"></i> Informations Personnelles</h2>
+                <div class="form-group">
+                    <label for="nom">Nom et Prénom *</label>
+                    <input type="text" id="nom" placeholder="Votre nom complet" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsapp">Numéro WhatsApp *</label>
+                    <input type="tel" id="whatsapp" placeholder="Votre numéro WhatsApp" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adresse">Adresse de Livraison *</label>
+                    <textarea id="adresse" rows="3" placeholder="Votre adresse complète pour la livraison" required></textarea>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-shopping-cart"></i> Sélection des Articles</h2>
+                <p>Choisissez une catégorie :</p>
+                
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">Tous</button>
+                    <button class="category-btn" data-category="electronique">Électronique</button>
+                    <button class="category-btn" data-category="vetements">Vêtements</button>
+                    <button class="category-btn" data-category="alimentation">Alimentation</button>
+                    <button class="category-btn" data-category="maison">Maison</button>
+                    <button class="category-btn" data-category="sport">Sport</button>
+                </div>
+                
+                <div class="product-grid">
+                    <div class="product-card" data-id="1" data-name="Smartphone XYZ" data-price="65000" data-category="electronique">
+                        <div class="product-image electronique">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">Smartphone XYZ</div>
+                            <div class="product-price">65 000 <span class="currency">FCFA</span></div>
+                            <div class="product-description">Smartphone haut de gamme avec appareil photo 48MP, 128GB de stockage.</div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="0" min="0" max="10">
+                                <button class="quantity-btn plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="2" data-name="Écouteurs Sans Fil" data-price="25000" data-category="electronique">
+                        <div class="product-image electronique">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">Écouteurs Sans Fil</div>
+                            <div class="product-price">25 000 <span class="currency">FCFA</span></div>
+                            <div class="product-description">Écouteurs Bluetooth avec réduction de bruit et autonomie de 24h.</div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="0" min="0" max="10">
+                                <button class="quantity-btn plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="3" data-name="T-shirt Sport" data-price="12000" data-category="vetements">
+                        <div class="product-image vetements">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">T-shirt Sport</div>
+                            <div class="product-price">12 000 <span class="currency">FCFA</span></div>
+                            <div class="product-description">T-shirt 100% coton, confortable pour le sport et les loisirs.</div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="0" min="0" max="10">
+                                <button class="quantity-btn plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="4" data-name="Panier de Fruits" data-price="8000" data-category="alimentation">
+                        <div class="product-image alimentation">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">Panier de Fruits</div>
+                            <div class="product-price">8 000 <span class="currency">FCFA</span></div>
+                            <div class="product-description">Assortiment de fruits frais de saison, parfait pour une alimentation saine.</div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="0" min="0" max="10">
+                                <button class="quantity-btn plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="5" data-name="Lampe de Bureau" data-price="18000" data-category="maison">
+                        <div class="product-image maison">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">Lampe de Bureau</div>
+                            <div class="product-price">18 000 <span class="currency">FCFA</span></div>
+                            <div class="product-description">Lampe LED moderne avec variateur d'intensité, parfaite pour le bureau.</div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="0" min="0" max="10">
+                                <button class="quantity-btn plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="6" data-name="Ballon de Football" data-price="15000" data-category="sport">
+                        <div class="product-image sport">
+                            <i class="fas fa-basketball-ball"></i>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title">Ballon de Football</div>
+                            <div class="product-price">15 000 <span class="currency">FCFA</span></div>
+                            <div class="product-description">Ballon de football officiel taille 5, idéal pour matchs et entraînements.</div>
+                            <div class="quantity-control">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="0" min="0" max="10">
+                                <button class="quantity-btn plus">-</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-file-invoice"></i> Récapitulatif de Commande</h2>
+                <div class="summary">
+                    <div class="summary-item">
+                        <span>Articles sélectionnés:</span>
+                        <span id="articles-count">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Sous-total:</span>
+                        <span id="subtotal">0 <span class="currency">FCFA</span></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Frais de livraison:</span>
+                        <span>2 000 <span class="currency">FCFA</span></span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="total">2 000 <span class="currency">FCFA</span></span>
+                    </div>
+                </div>
+                
+                <div class="payment-info">
+                    <p><strong>Options de paiement:</strong></p>
+                    <ul>
+                        <li><strong>T-Money/Yas:</strong> Transferez le montant au numéro <strong>92 87 16 05</strong></li>
+                        <li><strong>Flooz:</strong> Transferez le montant au numéro <strong>92 87 16 05</strong></li>
+                    </ul>
+                    <p>Votre commande sera traitée dès réception du paiement.</p>
+                    
+                    <div class="app-download">
+                        <p>Téléchargez l'application T-Money/Yas: 
+                            <a href="https://play.google.com/store/apps/details?id=tg.togocom.tmoney" target="_blank">
+                                <i class="fab fa-google-play"></i> Google Play Store
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2><i class="fas fa-paper-plane"></i> Envoyer la Commande</h2>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="confirm" required>
+                    <label for="confirm">Je confirme que les informations ci-dessus sont correctes</label>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-whatsapp" id="whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> Envoyer par WhatsApp
+                    </button>
+                    
+                    <button class="btn btn-tmoney" id="tmoney-btn">
+                        <i class="fas fa-money-bill-wave"></i> Payer avec T-Money/Yas
+                    </button>
+                    
+                    <button class="btn btn-flooz" id="flooz-btn">
+                        <i class="fas fa-mobile-alt"></i> Payer avec Flooz
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 - Service Client: 92 87 16 05 | Livraison sous 24-48h</p>
+        </footer>
+    </div>
+
+    <!-- Modal de Paiement -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-money-bill-wave"></i> Procéder au Paiement
+            </div>
+            
+            <p>Montant à payer: <strong id="modal-amount">0 FCFA</strong></p>
+            <p>Numéro de bénéficiaire: <strong>92 87 16 05</strong></p>
+            
+            <div class="payment-steps">
+                <p><strong>Instructions de paiement:</strong></p>
+                <ol>
+                    <li>Ouvrez votre application T-Money/Yas ou Flooz</li>
+                    <li>Sélectionnez l'option de transfert d'argent</li>
+                    <li>Entrez le numéro <strong>92 87 16 05</strong></li>
+                    <li>Saisissez le montant indiqué ci-dessus</li>
+                    <li>Confirmez la transaction</li>
+                </ol>
+            </div>
+            
+            <div class="app-download">
+                <p>Si vous n'avez pas l'application T-Money/Yas: 
+                    <a href="https://play.google.com/store/apps/details?id=tg.togocom.tmoney" target="_blank">
+                        <i class="fab fa-google-play"></i> Télécharger sur Google Play
+                    </a>
+                </p>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-tmoney" id="yas-btn">
+                    <i class="fas fa-external-link-alt"></i> Ouvrir T-Money/Yas
+                </button>
+                
+                <button class="modal-btn modal-btn-flooz" id="flooz-modal-btn">
+                    <i class="fas fa-external-link-alt"></i> Ouvrir Flooz
+                </button>
+                
+                <button class="modal-btn modal-btn-cancel" id="cancel-btn">
+                    <i class="fas fa-times"></i> Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments du modal
+            const paymentModal = document.getElementById('payment-modal');
+            const modalAmount = document.getElementById('modal-amount');
+            const yasBtn = document.getElementById('yas-btn');
+            const floozModalBtn = document.getElementById('flooz-modal-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            
+            // Gestion des catégories
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    
+                    // Mettre à jour les boutons de catégorie
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filtrer les produits
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Gestion des quantités
+            const quantityControls = document.querySelectorAll('.quantity-control');
+            
+            quantityControls.forEach(control => {
+                const minusBtn = control.querySelector('.minus');
+                const plusBtn = control.querySelector('.plus');
+                const input = control.querySelector('.quantity-input');
+                
+                minusBtn.addEventListener('click', () => {
+                    if (parseInt(input.value) > 0) {
+                        input.value = parseInt(input.value) - 1;
+                        updateSummary();
+                    }
+                });
+                
+                plusBtn.addEventListener('click', () => {
+                    if (parseInt(input.value) < 10) {
+                        input.value = parseInt(input.value) + 1;
+                        updateSummary();
+                    }
+                });
+                
+                input.addEventListener('change', () => {
+                    if (parseInt(input.value) < 0) input.value = 0;
+                    if (parseInt(input.value) > 10) input.value = 10;
+                    updateSummary();
+                });
+            });
+            
+            // Mise à jour du récapitulatif
+            function updateSummary() {
+                let totalArticles = 0;
+                let subtotal = 0;
+                
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const quantity = parseInt(card.querySelector('.quantity-input').value);
+                    const price = parseInt(card.dataset.price);
+                    
+                    if (quantity > 0) {
+                        totalArticles += quantity;
+                        subtotal += quantity * price;
+                    }
+                });
+                
+                const deliveryFee = 2000;
+                const total = subtotal + deliveryFee;
+                
+                document.getElementById('articles-count').textContent = totalArticles;
+                document.getElementById('subtotal').textContent = formatPrice(subtotal) + ' FCFA';
+                document.getElementById('total').textContent = formatPrice(total) + ' FCFA';
+            }
+            
+            // Formater le prix avec séparateurs de milliers
+            function formatPrice(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
+            
+            // Bouton WhatsApp
+            document.getElementById('whatsapp-btn').addEventListener('click', function() {
+                if (!document.getElementById('confirm').checked) {
+                    alert('Veuillez confirmer que les informations sont correctes');
+                    return;
+                }
+                
+                const nom = document.getElementById('nom').value;
+                const whatsapp = document.getElementById('whatsapp').value;
+                const adresse = document.getElementById('adresse').value;
+                
+                if (!nom || !whatsapp || !adresse) {
+                    alert('Veuillez remplir tous les champs obligatoires');
+                    return;
+                }
+                
+                let message = `Bonjour, je souhaite passer une commande.%0A%0A`;
+                message += `*Nom:* ${nom}%0A`;
+                message += `*WhatsApp:* ${whatsapp}%0A`;
+                message += `*Adresse:* ${adresse}%0A%0A`;
+                message += `*Détails de la commande:*%0A`;
+                
+                let hasItems = false;
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const quantity = parseInt(card.querySelector('.quantity-input').value);
+                    if (quantity > 0) {
+                        hasItems = true;
+                        const price = parseInt(card.dataset.price) * quantity;
+                        message += `- ${card.dataset.name} (x${quantity}) - ${formatPrice(price)} FCFA%0A`;
+                    }
+                });
+                
+                if (!hasItems) {
+                    alert('Veuillez sélectionner au moins un article');
+                    return;
+                }
+                
+                message += `%0A*Total:* ${document.getElementById('total').textContent}%0A%0A`;
+                message += `Merci de confirmer ma commande.`;
+                
+                window.open(`https://wa.me/22892871605?text=${message}`, '_blank');
+            });
+            
+            // Bouton T-Money/Yas
+            document.getElementById('tmoney-btn').addEventListener('click', function() {
+                if (!validateForm()) return;
+                
+                const total = document.getElementById('total').textContent;
+                modalAmount.textContent = total;
+                paymentModal.style.display = 'flex';
+            });
+            
+            // Bouton Flooz
+            document.getElementById('flooz-btn').addEventListener('click', function() {
+                if (!validateForm()) return;
+                
+                const total = document.getElementById('total').textContent;
+                modalAmount.textContent = total;
+                paymentModal.style.display = 'flex';
+            });
+            
+            // Ouvrir T-Money/Yas
+            yasBtn.addEventListener('click', function() {
+                // Essayer d'ouvrir l'application T-Money/Yas
+                window.location.href = 'tmoney://transfer?phone=92871605&amount=' + getTotalAmount();
+                
+                // Redirection vers le Play Store après un court délai si l'application n'est pas installée
+                setTimeout(function() {
+                    window.open('https://play.google.com/store/apps/details?id=tg.togocom.tmoney', '_blank');
+                }, 500);
+            });
+            
+            // Ouvrir Flooz
+            floozModalBtn.addEventListener('click', function() {
+                // Essayer d'ouvrir l'application Flooz
+                window.location.href = 'flooz://transfer?phone=92871605&amount=' + getTotalAmount();
+            });
+            
+            // Annuler le paiement
+            cancelBtn.addEventListener('click', function() {
+                paymentModal.style.display = 'none';
+            });
+            
+            // Fermer le modal en cliquant à l'extérieur
+            window.addEventListener('click', function(event) {
+                if (event.target === paymentModal) {
+                    paymentModal.style.display = 'none';
+                }
+            });
+            
+            // Valider le formulaire
+            function validateForm() {
+                if (!document.getElementById('confirm').checked) {
+                    alert('Veuillez confirmer que les informations sont correctes');
+                    return false;
+                }
+                
+                const nom = document.getElementById('nom').value;
+                const whatsapp = document.getElementById('whatsapp').value;
+                const adresse = document.getElementById('adresse').value;
+                
+                if (!nom || !whatsapp || !adresse) {
+                    alert('Veuillez remplir tous les champs obligatoires');
+                    return false;
+                }
+                
+                let hasItems = false;
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const quantity = parseInt(card.querySelector('.quantity-input').value);
+                    if (quantity > 0) hasItems = true;
+                });
+                
+                if (!hasItems) {
+                    alert('Veuillez sélectionner au moins un article');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // Obtenir le montant total sans le texte "FCFA"
+            function getTotalAmount() {
+                const totalText = document.getElementById('total').textContent;
+                return totalText.replace(/\sFCFA/, '').replace(/\s/g, '');
+            }
+            
+            // Initialiser le récapitulatif
+            updateSummary();
+        });
+    </script>
+</body>
+</html>
