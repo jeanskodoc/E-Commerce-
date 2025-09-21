@@ -461,35 +461,62 @@
             font-size: 18px;
         }
         
-        /* Yass-Togo App Section */
-        .yass-app {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 60px 0;
+        /* Payment Apps Section */
+        .payment-apps {
             margin: 60px 0;
-            border-radius: 10px;
         }
         
-        .yass-container {
+        .apps-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .app-card {
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             max-width: 500px;
-            margin: 0 auto;
+            flex: 1 1 400px;
             overflow: hidden;
             text-align: center;
             padding: 30px;
+            position: relative;
+        }
+        
+        .app-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff6b6b;
+            color: white;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            transform: rotate(5deg);
         }
         
         .app-logo {
             width: 100px;
             height: 100px;
             margin: 0 auto 20px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
             border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        
+        .yass-logo {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
             box-shadow: 0 5px 15px rgba(255, 126, 95, 0.3);
+        }
+        
+        .flooz-logo {
+            background: linear-gradient(to right, #2c6ed5, #4b8af7);
+            box-shadow: 0 8px 20px rgba(44, 110, 213, 0.25);
         }
         
         .app-logo span {
@@ -499,10 +526,17 @@
         }
         
         .app-subtitle {
-            color: #ff7e5f;
             font-weight: 600;
             margin-bottom: 20px;
             font-size: 18px;
+        }
+        
+        .yass-subtitle {
+            color: #ff7e5f;
+        }
+        
+        .flooz-subtitle {
+            color: #2c6ed5;
         }
         
         .app-description {
@@ -517,20 +551,35 @@
             justify-content: center;
             gap: 12px;
             padding: 16px 32px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
             font-size: 18px;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.4);
             margin-bottom: 30px;
+        }
+        
+        .yass-button {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.4);
+        }
+        
+        .flooz-button {
+            background: linear-gradient(to right, #2c6ed5, #4b8af7);
+            box-shadow: 0 8px 20px rgba(44, 110, 213, 0.35);
         }
         
         .download-button:hover {
             transform: translateY(-3px);
+        }
+        
+        .yass-button:hover {
             box-shadow: 0 8px 20px rgba(255, 126, 95, 0.6);
+        }
+        
+        .flooz-button:hover {
+            box-shadow: 0 12px 25px rgba(44, 110, 213, 0.5);
         }
         
         .app-features {
@@ -550,8 +599,15 @@
         
         .feature i {
             font-size: 28px;
-            color: #ff7e5f;
             margin-bottom: 12px;
+        }
+        
+        .yass-feature i {
+            color: #ff7e5f;
+        }
+        
+        .flooz-feature i {
+            color: #2c6ed5;
         }
         
         .feature span {
@@ -675,10 +731,21 @@
             .feature {
                 width: 110px;
             }
+            
+            .apps-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .app-card {
+                flex: 1 1 auto;
+                width: 100%;
+                max-width: 100%;
+            }
         }
         
         @media (max-width: 480px) {
-            .yass-container {
+            .app-card {
                 padding: 20px;
             }
             
@@ -721,7 +788,7 @@
                 <li><a href="#apropos">À Propos</a></li>
                 <li><a href="#localisation">Localisation</a></li>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#yass-app">Paiement Mobile</a></li>
+                <li><a href="#paiement-apps">Paiement Mobile</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -854,48 +921,95 @@
             </div>
         </section>
 
-        <!-- Yass-Togo App Section -->
-        <section class="yass-app" id="yass-app">
-            <h2 class="section-title">Paiement Mobile avec Yass-Togo</h2>
-            <div class="yass-container">
-                <div class="app-logo">
-                    <span>YASS</span>
+        <!-- Payment Apps Section -->
+        <section class="payment-apps" id="paiement-apps">
+            <h2 class="section-title">Paiement Mobile</h2>
+            <div class="apps-container">
+                <!-- Yass-Togo App Card -->
+                <div class="app-card">
+                    <div class="app-logo yass-logo">
+                        <span>YASS</span>
+                    </div>
+                    
+                    <h1>Yass-Togo</h1>
+                    <div class="app-subtitle yass-subtitle">Service de paiement mobile T-Money</div>
+                    
+                    <p class="app-description">
+                        Effectuez vos paiements en toute simplicité avec l'application mobile T-Money. 
+                        Rechargez votre compte, payez vos factures et effectuez des transferts d'argent en toute sécurité.
+                    </p>
+                    
+                    <a href="https://play.google.com/store/apps/details?id=tg.togocom.tmoney" class="download-button yass-button" target="_blank">
+                        <i class="fab fa-google-play"></i>
+                        Télécharger l'application
+                    </a>
+                    
+                    <div class="app-features">
+                        <div class="feature yass-feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>Paiements rapides</span>
+                        </div>
+                        <div class="feature yass-feature">
+                            <i class="fas fa-lock"></i>
+                            <span>Sécurisé</span>
+                        </div>
+                        <div class="feature yass-feature">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Recharge mobile</span>
+                        </div>
+                        <div class="feature yass-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Protection des données</span>
+                        </div>
+                    </div>
+                    
+                    <div class="app-footer">
+                        <p>Disponible sur Google Play Store</p>
+                    </div>
                 </div>
                 
-                <h1>Yass-Togo</h1>
-                <div class="app-subtitle">Service de paiement mobile T-Money</div>
-                
-                <p class="app-description">
-                    Effectuez vos paiements en toute simplicité avec l'application mobile T-Money. 
-                    Rechargez votre compte, payez vos factures et effectuez des transferts d'argent en toute sécurité.
-                </p>
-                
-                <a href="https://play.google.com/store/apps/details?id=tg.togocom.tmoney" class="download-button" target="_blank">
-                    <i class="fab fa-google-play"></i>
-                    Télécharger l'application
-                </a>
-                
-                <div class="app-features">
-                    <div class="feature">
-                        <i class="fas fa-bolt"></i>
-                        <span>Paiements rapides</span>
+                <!-- Flooz Togo App Card -->
+                <div class="app-card">
+                    <div class="app-badge">Nouveau</div>
+                    <div class="app-logo flooz-logo">
+                        <span>F</span>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-lock"></i>
-                        <span>Sécurisé</span>
+                    
+                    <h1>Flooz Togo</h1>
+                    <div class="app-subtitle flooz-subtitle">Service de paiement mobile</div>
+                    
+                    <p class="app-description">
+                        Flooz révolutionne votre quotidien avec une solution de paiement mobile simple, rapide et sécurisée. 
+                        Effectuez des transferts d'argent, payez vos factures et rechargez votre compte en quelques clics.
+                    </p>
+                    
+                    <a href="https://play.google.com/store/apps/details?id=com.huawei.moovmoney.tg.uat" class="download-button flooz-button" target="_blank">
+                        <i class="fab fa-google-play"></i>
+                        Télécharger l'application
+                    </a>
+                    
+                    <div class="app-features">
+                        <div class="feature flooz-feature">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transfert d'argent</span>
+                        </div>
+                        <div class="feature flooz-feature">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Paiement de factures</span>
+                        </div>
+                        <div class="feature flooz-feature">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Recharge mobile</span>
+                        </div>
+                        <div class="feature flooz-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>100% Sécurisé</span>
+                        </div>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>Recharge mobile</span>
+                    
+                    <div class="app-footer">
+                        <p>Disponible gratuitement sur Google Play Store</p>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Protection des données</span>
-                    </div>
-                </div>
-                
-                <div class="app-footer">
-                    <p>Disponible sur Google Play Store</p>
                 </div>
             </div>
         </section>
@@ -926,7 +1040,7 @@
                     <a href="#produits">Produits</a>
                     <a href="#apropos">À Propos</a>
                     <a href="#localisation">Localisation</a>
-                    <a href="#yass-app">Paiement Mobile</a>
+                    <a href="#paiement-apps">Paiement Mobile</a>
                     <a href="#contact">Contact</a>
                 </div>
                 
