@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -359,7 +358,6 @@
         }
     </style>
 </head>
-   
 <body>
     <div class="container">
         <header>
@@ -561,6 +559,7 @@
                                     <th>Stock</th>
                                     <th>Valeur</th>
                                     <th>Statut</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -646,6 +645,9 @@
                                 <p id="bankruptcy-culprits"></p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1128,6 +1130,9 @@
                         <td class="${article.stock <= article.minStock ? (article.stock === 0 ? 'stock-alert' : 'stock-warning') : ''}">${article.stock}</td>
                         <td>${formatFCFA(value)}</td>
                         <td>${status}</td>
+                        <td class="actions">
+                            <button class="btn-danger btn-icon" onclick="deleteStockItem('${category}', '${article.name}')"><i class="fas fa-trash"></i></button>
+                        </td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -1146,6 +1151,23 @@
                     </div>
                 `;
                 alertsContainer.appendChild(noAlert);
+            }
+        }
+        
+        function deleteStockItem(category, articleName) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet article du stock?')) {
+                const categoryArticles = articlesByCategory[category];
+                const articleIndex = categoryArticles.findIndex(a => a.name === articleName);
+                
+                if (articleIndex !== -1) {
+                    categoryArticles.splice(articleIndex, 1);
+                    
+                    // Mettre à jour l'interface
+                    updateStockTable();
+                    
+                    // Sauvegarder les données
+                    saveToLocalStorage();
+                }
             }
         }
         
@@ -1326,7 +1348,7 @@
                         articleCount[sale.article] += sale.quantity;
                     });
                     
-                    // Trouver l'article le mais vendu
+                    // Trouver l'article le plus vendu
                     let bestArticle = null;
                     let maxCount = 0;
                     
@@ -1510,7 +1532,7 @@
                     ],
                     vetements: [
                         { name: "T-shirt", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 50, minStock: 20 },
-                        { name: "Jean", purchasePrice: convertTo极FA(25), salePrice: convertToFCFA(49.99), stock: 30, minStock: 15 },
+                        { name: "Jean", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(49.99), stock: 30, minStock: 15 },
                         { name: "Robe", purchasePrice: convertToFCFA(30), salePrice: convertToFCFA(59.99), stock: 18, minStock: 8 },
                         { name: "Veste", purchasePrice: convertToFCFA(45), salePrice: convertToFCFA(89.99), stock: 15, minStock: 5 }
                     ],
@@ -1522,7 +1544,7 @@
                     ],
                     maison: [
                         { name: "Lampe de bureau", purchasePrice: convertToFCFA(15), salePrice: convertToFCFA(29.99), stock: 20, minStock: 8 },
-                        { name: "Set de cuisine", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(39.99), stock: 极2, minStock: 5 },
+                        { name: "Set de cuisine", purchasePrice: convertToFCFA(25), salePrice: convertToFCFA(39.99), stock: 12, minStock: 5 },
                         { name: "Oreiller", purchasePrice: convertToFCFA(8), salePrice: convertToFCFA(19.99), stock: 25, minStock: 10 },
                         { name: "Serviettes", purchasePrice: convertToFCFA(7), salePrice: convertToFCFA(12.99), stock: 30, minStock: 12 }
                     ],
@@ -1595,39 +1617,6 @@
                 checkBankruptcy();
             }
         }
-        
-        // Simulation de données pour la démonstration
-        function simulateSales() {
-            const categories = Object.keys(articlesByCategory);
-            const sellerIds = Object.keys(sellers);
-            
-            for (let i = 0; i < 15; i++) {
-                const category = categories[Math.floor(Math.random() * categories.length)];
-                const articles = articlesByCategory[category];
-                const article = articles[Math.floor(Math.random() * articles.length)];
-                const seller = sellerIds[Math.floor(Math.random() * sellerIds.length)];
-                const quantity = Math.floor(Math.random() * 3) + 1;
-                
-                // Définir les sélecteurs
-                document.getElementById('category').value = category;
-                updateArticles();
-                
-                // Attendre la mise à jour des articles
-                setTimeout(() => {
-                    document.getElementById('article').value = article.name.toLowerCase().replace(/\s+/g, '-');
-                    updatePrice();
-                    document.getElementById('quantity').value = quantity;
-                    calculateTotal();
-                    document.getElementById('seller').value = seller;
-                    
-                    // Ajouter la vente
-                    addSale();
-                }, 100);
-            }
-        }
-        
-        // Simuler des ventes au chargement de la page pour la démonstration
-        setTimeout(simulateSales, 1000);
     </script>
 </body>
 </html>
