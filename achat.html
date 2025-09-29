@@ -1,19 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr"> <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
-
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -121,6 +107,106 @@
             border-color: var(--primary);
             outline: none;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn-retour {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .btn-retour:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .gps-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .gps-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .gps-info i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .gps-coordinates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .gps-field {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .gps-field label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .gps-field input {
+            background-color: #f0f0f0;
+            font-family: monospace;
+        }
+        
+        .btn-gps {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-gps:hover {
+            background-color: #2980b9;
+        }
+        
+        .gps-status {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .gps-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .gps-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .gps-loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
         }
         
         .categories {
@@ -449,6 +535,10 @@
                 width: 95%;
                 padding: 20px;
             }
+            
+            .gps-coordinates {
+                flex-direction: column;
+            }
         }
         
         .checkbox-container {
@@ -486,7 +576,8 @@
 </head>
     
 <body>
-    <div class="container"><button class="btn-retour" onclick="history.back()">← Retour</button>
+    <div class="container">
+        <button class="btn-retour" onclick="history.back()">← Retour</button>
         <header>
             <h1><i class="fas fa-store"></i> Commande en Ligne</h1>
             <p class="description">Commandez vos articles préférés et payez par T-Money/Yas ou Flooz</p>
@@ -508,6 +599,33 @@
                 <div class="form-group">
                     <label for="adresse">Adresse de Livraison *</label>
                     <textarea id="adresse" rows="3" placeholder="Votre adresse complète pour la livraison" required></textarea>
+                </div>
+                
+                <div class="gps-section">
+                    <div class="gps-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Coordonnées GPS</h3>
+                            <p>Cliquez sur le bouton ci-dessous pour détecter automatiquement votre position</p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-gps" id="get-gps-btn">
+                        <i class="fas fa-crosshairs"></i> Obtenir mes coordonnées GPS
+                    </button>
+                    
+                    <div id="gps-status" class="gps-status" style="display: none;"></div>
+                    
+                    <div class="gps-coordinates">
+                        <div class="gps-field">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" id="latitude" placeholder="Latitude" readonly>
+                        </div>
+                        <div class="gps-field">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" id="longitude" placeholder="Longitude" readonly>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -616,7 +734,7 @@
                             <div class="quantity-control">
                                 <button class="quantity-btn minus">-</button>
                                 <input type="number" class="quantity-input" value="0" min="0" max="10">
-                                <button class="quantity-btn plus">-</button>
+                                <button class="quantity-btn plus">+</button>
                             </div>
                         </div>
                     </div>
@@ -744,6 +862,12 @@
             const floozModalBtn = document.getElementById('flooz-modal-btn');
             const cancelBtn = document.getElementById('cancel-btn');
             
+            // Éléments GPS
+            const getGpsBtn = document.getElementById('get-gps-btn');
+            const latitudeInput = document.getElementById('latitude');
+            const longitudeInput = document.getElementById('longitude');
+            const gpsStatus = document.getElementById('gps-status');
+            
             // Gestion des catégories
             const categoryButtons = document.querySelectorAll('.category-btn');
             const productCards = document.querySelectorAll('.product-card');
@@ -824,6 +948,69 @@
                 return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             }
             
+            // Récupération des coordonnées GPS
+            getGpsBtn.addEventListener('click', function() {
+                // Afficher le statut de charnement
+                gpsStatus.textContent = "Localisation en cours...";
+                gpsStatus.className = "gps-status gps-loading";
+                gpsStatus.style.display = "block";
+                
+                // Vérifier si le navigateur supporte la géolocalisation
+                if (!navigator.geolocation) {
+                    gpsStatus.textContent = "La géolocalisation n'est pas supportée par votre navigateur.";
+                    gpsStatus.className = "gps-status gps-error";
+                    return;
+                }
+                
+                // Obtenir la position
+                navigator.geolocation.getCurrentPosition(
+                    // Succès
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        // Remplir les champs avec les coordonnées
+                        latitudeInput.value = lat.toFixed(6);
+                        longitudeInput.value = lng.toFixed(6);
+                        
+                        // Afficher le statut de succès
+                        gpsStatus.textContent = "Position détectée avec succès!";
+                        gpsStatus.className = "gps-status gps-success";
+                        
+                        // Optionnel: Remplir automatiquement l'adresse avec les coordonnées
+                        document.getElementById('adresse').value += ` (Coordonnées GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)})`;
+                    },
+                    // Erreur
+                    function(error) {
+                        let errorMessage = "Erreur lors de la localisation: ";
+                        
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage += "Vous avez refusé l'accès à votre position.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage += "Les informations de localisation ne sont pas disponibles.";
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage += "La demande de localisation a expiré.";
+                                break;
+                            default:
+                                errorMessage += "Une erreur inconnue s'est produite.";
+                                break;
+                        }
+                        
+                        gpsStatus.textContent = errorMessage;
+                        gpsStatus.className = "gps-status gps-error";
+                    },
+                    // Options
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000
+                    }
+                );
+            });
+            
             // Bouton WhatsApp
             document.getElementById('whatsapp-btn').addEventListener('click', function() {
                 if (!document.getElementById('confirm').checked) {
@@ -834,6 +1021,8 @@
                 const nom = document.getElementById('nom').value;
                 const whatsapp = document.getElementById('whatsapp').value;
                 const adresse = document.getElementById('adresse').value;
+                const latitude = latitudeInput.value;
+                const longitude = longitudeInput.value;
                 
                 if (!nom || !whatsapp || !adresse) {
                     alert('Veuillez remplir tous les champs obligatoires');
@@ -843,8 +1032,14 @@
                 let message = `Bonjour, je souhaite passer une commande.%0A%0A`;
                 message += `*Nom:* ${nom}%0A`;
                 message += `*WhatsApp:* ${whatsapp}%0A`;
-                message += `*Adresse:* ${adresse}%0A%0A`;
-                message += `*Détails de la commande:*%0A`;
+                message += `*Adresse:* ${adresse}%0A`;
+                
+                // Ajouter les coordonnées GPS si disponibles
+                if (latitude && longitude) {
+                    message += `*Coordonnées GPS:* ${latitude}, ${longitude}%0A`;
+                }
+                
+                message += `%0A*Détails de la commande:*%0A`;
                 
                 let hasItems = false;
                 document.querySelectorAll('.product-card').forEach(card => {
