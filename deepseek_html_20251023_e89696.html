@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande - Boutique KOLA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Bouton Retour */
+        .btn-retour {
+            padding: 10px 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .btn-retour:hover {
+            background-color: #e0e0e0;
+            transform: translateX(-3px);
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #25D366;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .brand-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .brand-slogan {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            margin: 30px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #128C7E;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #555;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #128C7E;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #25D366;
+            outline: none;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .gps-info {
+            background: #f0fff0;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #25D366;
+            margin-top: 10px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .gps-info i {
+            color: #25D366;
+        }
+        
+        .btn-submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+        
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Info Section */
+        .info-section {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .info-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .info-section p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .whatsapp-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            color: #25D366;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-contact:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #25D366;
+        }
+        
+        .footer-column p, .footer-column a {
+            margin-bottom: 10px;
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .footer-column a:hover {
+            color: #25D366;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .brand-name {
+                font-size: 24px;
+            }
+            
+            .brand-slogan {
+                font-size: 14px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .hero {
+                padding: 30px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .form-section {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .info-section {
+                padding: 30px 20px;
+            }
+            
+            .info-section h2 {
+                font-size: 24px;
+            }
+            
+            .info-section p {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 10px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .brand-name {
+                font-size: 22px;
+            }
+            
+            .hero {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+            
+            .hero h1 {
+                font-size: 24px;
+            }
+            
+            .hero p {
+                font-size: 15px;
+            }
+            
+            .form-section {
+                padding: 20px 15px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .info-section {
+                padding: 20px 15px;
+            }
+            
+            .info-section h2 {
+                font-size: 22px;
+            }
+            
+            .info-section p {
+                font-size: 15px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bouton Retour -->
+    <div class="container">
+        <a href="index.html" class="btn-retour">
+            <i class="fas fa-arrow-left"></i> Retour à l'accueil
+        </a>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo">K</div>
+                    <div>
+                        <div class="brand-name">BOUTIQUE KOLA</div>
+                        <div class="brand-slogan">Votre shopping en toute élégance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Passer une Commande</h1>
+            <p>Remplissez ce formulaire simplifié pour passer votre commande. Nous vous recontacterons rapidement sur WhatsApp.</p>
+        </section>
+
+        <!-- Form Section -->
+        <section class="form-section">
+            <h2 class="section-title"><i class="fas fa-shopping-cart"></i> Formulaire de Commande</h2>
+            
+            <form id="commandeForm">
+                <div class="form-group">
+                    <label for="nom"><i class="fas fa-user"></i> Nom et Prénoms *</label>
+                    <input type="text" id="nom" name="nom" placeholder="Votre nom complet" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="region"><i class="fas fa-map"></i> Région *</label>
+                    <select id="region" name="region" required>
+                        <option value="">Sélectionnez votre région</option>
+                        <option value="Maritime">Région Maritime</option>
+                        <option value="Plateaux">Région des Plateaux</option>
+                        <option value="Centrale">Région Centrale</option>
+                        <option value="Kara">Région de la Kara</option>
+                        <option value="Savanes">Région des Savanes</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ville"><i class="fas fa-city"></i> Ville *</label>
+                    <input type="text" id="ville" name="ville" placeholder="Votre ville" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adresse"><i class="fas fa-map-marker-alt"></i> Adresse détaillée *</label>
+                    <textarea id="adresse" name="adresse" placeholder="Quartier, rue, numéro de maison..." required></textarea>
+                    <div class="gps-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Vos coordonnées GPS seront automatiquement détectées lors de l'envoi</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="articles"><i class="fas fa-boxes"></i> Articles commandés *</label>
+                    <textarea id="articles" name="articles" placeholder="Décrivez les articles que vous souhaitez commander (nom, quantité, couleur, taille...)" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsapp"><i class="fab fa-whatsapp"></i> Votre numéro WhatsApp *</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Votre numéro avec indicatif" required>
+                </div>
+                
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fab fa-whatsapp"></i> Envoyer la commande via WhatsApp
+                </button>
+            </form>
+        </section>
+
+        <!-- Info Section -->
+        <section class="info-section">
+            <h2><i class="fas fa-info-circle"></i> Comment ça marche ?</h2>
+            <p>1. Remplissez le formulaire de commande ci-dessus</p>
+            <p>2. Cliquez sur "Envoyer la commande via WhatsApp"</p>
+            <p>3. Votre commande sera envoyée directement sur WhatsApp</p>
+            <p>4. Nous vous contacterons pour confirmer et finaliser votre commande</p>
+            
+            <a href="https://wa.me/22892871605" class="whatsapp-contact" target="_blank">
+                <i class="fab fa-whatsapp"></i> Nous contacter directement
+            </a>
+        </section>
+    </div>
+     
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Boutique KOLA</h3>
+                    <p>Votre destination shopping préférée à Lomé depuis 2024.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contactez-nous</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Rue du Commerce, Lomé, Togo</p>
+                    <p><i class="fas fa-phone"></i> +228 92 87 16 05</p>
+                    <p><i class="fas fa-envelope"></i> jeanskodoc22@gmail.com</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Horaires d'Ouverture</h3>
+                    <p>Lundi - Vendredi: 8h - 20h</p>
+                    <p>Samedi: 9h - 20h</p>
+                    <p>Dimanche: 9h - 16h</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Boutique KOLA - Tous droits réservés. Créé par M. Jean KOLA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('commandeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Récupération des coordonnées GPS...';
+            
+            try {
+                // Récupérer les coordonnées GPS
+                let gpsCoords = "Non disponible";
+                
+                if (navigator.geolocation) {
+                    const position = await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(resolve, reject, {
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            maximumAge: 0
+                        });
+                    });
+                    
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    gpsCoords = `${latitude},${longitude}`;
+                }
+                
+                // Récupérer les valeurs du formulaire
+                const nom = document.getElementById('nom').value;
+                const region = document.getElementById('region').value;
+                const ville = document.getElementById('ville').value;
+                const adresse = document.getElementById('adresse').value;
+                const articles = document.getElementById('articles').value;
+                const whatsapp = document.getElementById('whatsapp').value;
+                
+                // Construire le message WhatsApp
+                let whatsappMessage = `NOUVELLE COMMANDE - BOUTIQUE KOLA%0A%0A`;
+                whatsappMessage += `📋 *INFORMATIONS CLIENT*%0A`;
+                whatsappMessage += `👤 *Nom:* ${nom}%0A`;
+                whatsappMessage += `📱 *WhatsApp:* ${whatsapp}%0A%0A`;
+                
+                whatsappMessage += `📍 *ADRESSE DE LIVRAISON*%0A`;
+                whatsappMessage += `🏛️ *Région:* ${region}%0A`;
+                whatsappMessage += `🏙️ *Ville:* ${ville}%0A`;
+                whatsappMessage += `📬 *Adresse:* ${adresse}%0A`;
+                whatsappMessage += `🌐 *Coordonnées GPS:* ${gpsCoords}%0A%0A`;
+                
+                whatsappMessage += `🛒 *ARTICLES COMMANDÉS*%0A`;
+                whatsappMessage += `${articles}%0A%0A`;
+                
+                whatsappMessage += `_Merci de traiter cette commande_ 🛍️`;
+                
+                // Numéro WhatsApp de la boutique
+                const phoneNumber = '22892871605';
+                
+                // Ouvrir WhatsApp avec le message pré-rempli
+                window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
+                
+            } catch (error) {
+                console.error('Erreur GPS:', error);
+                
+                // Récupérer les valeurs du formulaire même sans GPS
+                const nom = document.getElementById('nom').value;
+                const region = document.getElementById('region').value;
+                const ville = document.getElementById('ville').value;
+                const adresse = document.getElementById('adresse').value;
+                const articles = document.getElementById('articles').value;
+                const whatsapp = document.getElementById('whatsapp').value;
+                
+                // Construire le message WhatsApp sans GPS
+                let whatsappMessage = `NOUVELLE COMMANDE - BOUTIQUE KOLA%0A%0A`;
+                whatsappMessage += `📋 *INFORMATIONS CLIENT*%0A`;
+                whatsappMessage += `👤 *Nom:* ${nom}%0A`;
+                whatsappMessage += `📱 *WhatsApp:* ${whatsapp}%0A%0A`;
+                
+                whatsappMessage += `📍 *ADRESSE DE LIVRAISON*%0A`;
+                whatsappMessage += `🏛️ *Région:* ${region}%0A`;
+                whatsappMessage += `🏙️ *Ville:* ${ville}%0A`;
+                whatsappMessage += `📬 *Adresse:* ${adresse}%0A`;
+                whatsappMessage += `⚠️ *GPS:* Non disponible%0A%0A`;
+                
+                whatsappMessage += `🛒 *ARTICLES COMMANDÉS*%0A`;
+                whatsappMessage += `${articles}%0A%0A`;
+                
+                whatsappMessage += `_Merci de traiter cette commande_ 🛍️`;
+                
+                // Numéro WhatsApp de la boutique
+                const phoneNumber = '22892871605';
+                
+                // Ouvrir WhatsApp avec le message pré-rempli
+                window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
+            } finally {
+                // Réactiver le bouton
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la commande via WhatsApp';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
