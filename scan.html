@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -19,52 +20,88 @@
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            font-size: 16px;
         }
         
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
+        }
+        
+        /* Bouton Retour */
+        .btn-retour {
+            padding: 12px 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .btn-retour:hover {
+            background-color: #e0e0e0;
+            transform: translateX(-3px);
         }
         
         header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 25px;
+            padding: 20px 15px;
             background: linear-gradient(135deg, #25D366, #128C7E);
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         h1 {
-            font-size: 32px;
+            font-size: 28px;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
         .app-description {
             font-size: 16px;
             opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .dashboard {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
             margin-bottom: 20px;
         }
         
         .dashboard-card {
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
         }
         
         .dashboard-card h3 {
             color: #128C7E;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 16px;
         }
         
         .dashboard-card .value {
@@ -87,20 +124,22 @@
         .panel {
             background-color: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
         
         .panel-title {
             font-size: 20px;
             margin-bottom: 15px;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #25D366;
             color: #128C7E;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         /* Styles pour le scanner */
@@ -108,12 +147,16 @@
             position: relative;
             width: 100%;
             margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
         }
         
         #video {
             width: 100%;
-            border-radius: 10px;
-            background-color: #000;
+            height: 300px;
+            object-fit: cover;
+            display: block;
         }
         
         #scan-region {
@@ -123,34 +166,41 @@
             transform: translate(-50%, -50%);
             width: 70%;
             height: 200px;
-            border: 2px solid #25D366;
-            border-radius: 10px;
-            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.3);
+            border: 3px solid #25D366;
+            border-radius: 12px;
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.4);
         }
         
         .scanner-controls {
             text-align: center;
             margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         button {
             background-color: #25D366;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 50px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            transition: background-color 0.3s;
-            margin: 5px;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            min-height: 50px;
         }
         
         button:hover {
             background-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         button#stop-scanner {
@@ -165,8 +215,9 @@
         .sale-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px;
+            padding: 12px 0;
             border-bottom: 1px solid #eee;
+            align-items: center;
         }
         
         .sale-item:last-child {
@@ -176,29 +227,41 @@
         .sale-total {
             font-weight: bold;
             text-align: right;
-            margin-top: 10px;
-            font-size: 18px;
+            margin-top: 15px;
+            font-size: 20px;
             color: #128C7E;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
         }
         
         /* Styles pour le formulaire d'articles */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 600;
             color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 14px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            border-color: #25D366;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
         }
         
         /* Styles pour les catégories */
@@ -212,10 +275,12 @@
         .category-btn {
             background-color: #e0e0e0;
             color: #555;
-            padding: 8px 15px;
+            padding: 10px 16px;
             border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 14px;
         }
         
         .category-btn.active {
@@ -226,73 +291,79 @@
         /* Styles pour les QR codes générés */
         .qr-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
         
         .qr-card {
             background: white;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
             position: relative;
+            border: 1px solid #eee;
         }
         
         .qr-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         
         .qr-card img {
             max-width: 100%;
             height: auto;
-            border-radius: 5px;
+            border-radius: 8px;
         }
         
         .qr-card p {
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 14px;
             font-weight: bold;
             color: #333;
+            line-height: 1.4;
         }
         
         .qr-card .price {
             color: #25D366;
             font-weight: bold;
+            font-size: 16px;
         }
         
         /* Indicateur d'article vendu */
         .sold-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: -8px;
+            right: -8px;
             background-color: #ff4444;
             color: white;
             border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
             font-weight: bold;
+            box-shadow: 0 2px 8px rgba(255, 68, 68, 0.3);
         }
         
         /* Section WhatsApp */
         .whatsapp-section {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 25px;
             padding-top: 20px;
             border-top: 2px solid #eee;
         }
         
         #send-whatsapp {
             background-color: #25D366;
-            padding: 15px 30px;
+            padding: 16px 32px;
             font-size: 18px;
+            width: 100%;
+            max-width: 300px;
         }
         
         /* Résultat du scan */
@@ -301,30 +372,41 @@
             margin-top: 20px;
             font-weight: bold;
             color: #25D366;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 8px;
             background-color: #f0fff0;
+            border: 1px solid #25D366;
+            font-size: 16px;
         }
         
         /* Journal des ventes */
         .sales-journal {
             max-height: 300px;
             overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
         }
         
         .journal-entry {
-            padding: 10px;
+            padding: 12px;
             border-bottom: 1px solid #eee;
             font-size: 14px;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         
         .journal-entry:last-child {
             border-bottom: none;
+            margin-bottom: 0;
         }
         
         .journal-time {
             color: #777;
             font-size: 12px;
+            margin-bottom: 5px;
         }
         
         .journal-product {
@@ -346,10 +428,11 @@
         /* Instructions */
         .instructions {
             background-color: #e3f2fd;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 12px;
             margin-bottom: 20px;
-            font-size: 14px;
+            font-size: 15px;
+            border-left: 4px solid #2196F3;
         }
         
         /* Footer */
@@ -362,48 +445,6 @@
             border-top: 1px solid #eee;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .left-panel, .right-panel {
-                width: 100%;
-            }
-        }
-        
-        .tab-buttons {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .tab-btn {
-            padding: 10px 20px;
-            background: #f0f0f0;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .tab-btn.active {
-            background: #25D366;
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
         /* Authentification */
         .auth-container {
             display: flex;
@@ -411,13 +452,14 @@
             align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #25D366, #128C7E);
+            padding: 20px;
         }
         
         .auth-box {
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
         }
@@ -426,6 +468,7 @@
             text-align: center;
             margin-bottom: 20px;
             color: #128C7E;
+            font-size: 24px;
         }
         
         .auth-logo {
@@ -450,12 +493,12 @@
         }
         
         .hidden {
-            display: none;
+            display: none !important;
         }
         
         .logout-btn {
             background-color: #ff4444;
-            padding: 8px 15px;
+            padding: 10px 20px;
             font-size: 14px;
         }
         
@@ -473,10 +516,15 @@
         
         .category-stat-card {
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-stat-card:hover {
+            transform: translateY(-3px);
         }
         
         .category-stat-card h4 {
@@ -507,7 +555,7 @@
         .data-management button {
             flex: 1;
             min-width: 120px;
-            padding: 10px 15px;
+            padding: 12px 15px;
             font-size: 14px;
         }
         
@@ -540,22 +588,358 @@
             display: none;
         }
         
-        .btn-retour {
-            padding: 8px 16px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
+        /* Onglets */
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
         }
-        .btn-retour:hover {
-            background-color: #e0e0e0;
+        
+        .tab-btn {
+            padding: 12px 20px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            flex: 1;
+            min-width: 140px;
+            text-align: center;
+        }
+        
+        .tab-btn.active {
+            background: #25D366;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        
+        /* Tablettes grandes (≥ 1024px) */
+        @media (min-width: 1024px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .dashboard {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Tablettes moyennes (768px - 1023px) */
+        @media (max-width: 1023px) and (min-width: 768px) {
+            .container {
+                padding: 18px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .category-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Tablettes petites et grands mobiles (576px - 767px) */
+        @media (max-width: 767px) and (min-width: 576px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .dashboard-card {
+                padding: 15px 10px;
+            }
+            
+            .main-content {
+                gap: 15px;
+            }
+            
+            .panel {
+                padding: 15px;
+            }
+            
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 12px;
+            }
+            
+            .category-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tab-btn {
+                min-width: 120px;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Mobiles moyens (414px - 575px) */
+        @media (max-width: 575px) and (min-width: 414px) {
+            .container {
+                padding: 12px;
+            }
+            
+            header {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .app-description {
+                font-size: 14px;
+            }
+            
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .dashboard-card {
+                padding: 15px 8px;
+            }
+            
+            .dashboard-card h3 {
+                font-size: 14px;
+            }
+            
+            .dashboard-card .value {
+                font-size: 20px;
+            }
+            
+            .main-content {
+                gap: 12px;
+            }
+            
+            .left-panel, .right-panel {
+                min-width: 100%;
+            }
+            
+            .panel {
+                padding: 15px 12px;
+                margin-bottom: 15px;
+            }
+            
+            .panel-title {
+                font-size: 18px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 15px;
+                min-height: 44px;
+            }
+            
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+            
+            .qr-card {
+                padding: 12px;
+            }
+            
+            .category-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                min-width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .scanner-controls {
+                flex-direction: column;
+            }
+            
+            .scanner-controls button {
+                width: 100%;
+            }
+            
+            #scan-region {
+                width: 80%;
+                height: 180px;
+            }
+        }
+        
+        /* Petits mobiles (≤ 413px) */
+        @media (max-width: 413px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 12px 10px;
+                margin-bottom: 15px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .app-description {
+                font-size: 13px;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .dashboard-card {
+                padding: 12px 8px;
+            }
+            
+            .dashboard-card h3 {
+                font-size: 13px;
+            }
+            
+            .dashboard-card .value {
+                font-size: 18px;
+            }
+            
+            .main-content {
+                gap: 10px;
+            }
+            
+            .panel {
+                padding: 12px 10px;
+                margin-bottom: 12px;
+            }
+            
+            .panel-title {
+                font-size: 16px;
+            }
+            
+            button {
+                padding: 10px 16px;
+                font-size: 14px;
+                min-height: 44px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            input, select {
+                padding: 12px;
+                font-size: 16px; /* Évite le zoom sur iOS */
+            }
+            
+            .qr-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+                gap: 8px;
+            }
+            
+            .qr-card {
+                padding: 10px;
+            }
+            
+            .qr-card p {
+                font-size: 12px;
+            }
+            
+            .categories {
+                gap: 6px;
+            }
+            
+            .category-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            #scan-region {
+                width: 85%;
+                height: 150px;
+            }
+            
+            #video {
+                height: 250px;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .auth-box {
+                padding: 20px 15px;
+            }
+            
+            .auth-title {
+                font-size: 20px;
+            }
+        }
+        
+        /* Orientation paysage sur mobiles */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .auth-container {
+                padding: 10px;
+            }
+            
+            .auth-box {
+                padding: 20px;
+            }
+            
+            #video {
+                height: 200px;
+            }
+            
+            #scan-region {
+                height: 120px;
+            }
         }
     </style>
-   
 </head>
 <body>
-    <button class="btn-retour" onclick="history.back()">← Retour</button>
+    <div class="container">
+        <button class="btn-retour" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i> Retour
+        </button>
+    </div>
     
     <div class="auth-container" id="auth-container">
         <div class="auth-box">
@@ -565,14 +949,16 @@
             <h2 class="auth-title">Authentification Requise</h2>
             <form id="login-form">
                 <div class="form-group">
-                    <label for="username">Identifiant</label>
+                    <label for="username"><i class="fas fa-user"></i> Identifiant</label>
                     <input type="text" id="username" placeholder="Votre identifiant" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Mot de passe</label>
+                    <label for="password"><i class="fas fa-lock"></i> Mot de passe</label>
                     <input type="password" id="password" placeholder="Votre mot de passe" required>
                 </div>
-                <button type="submit" id="login-btn">Se connecter</button>
+                <button type="submit" id="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
             </form>
             <div id="auth-error" class="auth-error"></div>
             <div id="auth-success" class="auth-success"></div>
@@ -581,37 +967,45 @@
 
     <div class="container hidden" id="app-container">
         <header>
-            <h1>Système Sécurisé de Gestion des Ventes <button id="logout-btn" class="logout-btn">Déconnexion</button></h1>
+            <h1>
+                <i class="fas fa-chart-line"></i> 
+                Système Sécurisé de Gestion des Ventes 
+                <button id="logout-btn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </h1>
             <p class="app-description">Accès sécurisé pour la gestion des articles et des ventes</p>
         </header>
         
         <div class="dashboard">
             <div class="dashboard-card">
-                <h3>Total des Ventes</h3>
+                <h3><i class="fas fa-money-bill-wave"></i> Total des Ventes</h3>
                 <div class="value" id="total-sales">0 FCFA</div>
             </div>
             <div class="dashboard-card">
-                <h3>Articles Vendus</h3>
+                <h3><i class="fas fa-shopping-cart"></i> Articles Vendus</h3>
                 <div class="value" id="total-items-sold">0</div>
             </div>
             <div class="dashboard-card">
-                <h3>Articles en Stock</h3>
+                <h3><i class="fas fa-boxes"></i> Articles en Stock</h3>
                 <div class="value" id="total-items-stock">0</div>
             </div>
             <div class="dashboard-card">
-                <h3>Taux de Vente</h3>
+                <h3><i class="fas fa-chart-pie"></i> Taux de Vente</h3>
                 <div class="value" id="sales-rate">0%</div>
             </div>
         </div>
         
         <div class="instructions">
-            <p><strong>Instructions :</strong> Ajoutez d'abord des articles avec leurs QR codes. Ensuite, utilisez le scanner pour enregistrer les ventes. Consultez les onglets pour voir les analyses et le journal des ventes.</p>
+            <p><strong><i class="fas fa-info-circle"></i> Instructions :</strong> Ajoutez d'abord des articles avec leurs QR codes. Ensuite, utilisez le scanner pour enregistrer les ventes. Consultez les onglets pour voir les analyses et le journal des ventes.</p>
         </div>
         
         <div class="main-content">
             <div class="left-panel">
                 <div class="panel">
-                    <h2 class="panel-title">Scanner QR Code</h2>
+                    <h2 class="panel-title">
+                        <i class="fas fa-qrcode"></i> Scanner QR Code
+                    </h2>
                     <div id="scanner-container">
                         <video id="video" autoplay playsinline></video>
                         <div id="scan-region"></div>
@@ -619,27 +1013,37 @@
                     <div id="qr-result"></div>
                     
                     <div class="scanner-controls">
-                        <button id="start-scanner">Démarrer le Scanner</button>
-                        <button id="stop-scanner" class="hidden">Arrêter le Scanner</button>
+                        <button id="start-scanner">
+                            <i class="fas fa-camera"></i> Démarrer le Scanner
+                        </button>
+                        <button id="stop-scanner" class="hidden">
+                            <i class="fas fa-stop"></i> Arrêter le Scanner
+                        </button>
                     </div>
                 </div>
         
                 
                 <div class="panel">
-                    <h2 class="panel-title">Détails de la vente</h2>
+                    <h2 class="panel-title">
+                        <i class="fas fa-receipt"></i> Détails de la vente
+                    </h2>
                     <div id="sale-items">
                         <p id="no-items">Aucun article scanné pour le moment</p>
                     </div>
                     <div class="sale-total" id="sale-total">Total: 0 FCFA</div>
                     
                     <div class="whatsapp-section">
-                        <button id="send-whatsapp">Envoyer la vente par WhatsApp</button>
+                        <button id="send-whatsapp">
+                            <i class="fab fa-whatsapp"></i> Envoyer la vente par WhatsApp
+                        </button>
                     </div>
                      
                 </div>
                 
                 <div class="panel">
-                    <h2 class="panel-title">Journal des Ventes</h2>
+                    <h2 class="panel-title">
+                        <i class="fas fa-history"></i> Journal des Ventes
+                    </h2>
                     <div class="sales-journal" id="sales-journal">
                         <p id="no-journal-entries">Aucune vente enregistrée</p>
                     </div>
@@ -648,24 +1052,26 @@
             
             <div class="right-panel">
                 <div class="panel">
-                    <h2 class="panel-title">Ajouter un Article</h2>
+                    <h2 class="panel-title">
+                        <i class="fas fa-plus-circle"></i> Ajouter un Article
+                    </h2>
                     <div class="form-group">
-                        <label for="product-name">Nom de l'article</label>
+                        <label for="product-name"><i class="fas fa-tag"></i> Nom de l'article</label>
                         <input type="text" id="product-name" placeholder="Ex: Téléphone XYZ">
                     </div>
                     
                     <div class="form-group">
-                        <label for="product-price">Prix (FCFA)</label>
+                        <label for="product-price"><i class="fas fa-money-bill"></i> Prix (FCFA)</label>
                         <input type="number" id="product-price" placeholder="Ex: 45000">
                     </div>
                     
                     <div class="form-group">
-                        <label for="product-quantity">Quantité en stock</label>
+                        <label for="product-quantity"><i class="fas fa-box"></i> Quantité en stock</label>
                         <input type="number" id="product-quantity" placeholder="Ex: 10" value="1">
                     </div>
                     
                     <div class="form-group">
-                        <label for="product-category">Catégorie</label>
+                        <label for="product-category"><i class="fas fa-folder"></i> Catégorie</label>
                         <select id="product-category">
                             <option value="électronique">Électronique</option>
                             <option value="vêtements">Vêtements</option>
@@ -676,7 +1082,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="product-week">Semaine</label>
+                        <label for="product-week"><i class="fas fa-calendar"></i> Semaine</label>
                         <select id="product-week">
                             <option value="semaine1">Semaine 1</option>
                             <option value="semaine2">Semaine 2</option>
@@ -685,20 +1091,30 @@
                         </select>
                     </div>
                     
-                    <button id="generate-qr">Générer le QR Code</button>
+                    <button id="generate-qr">
+                        <i class="fas fa-qrcode"></i> Générer le QR Code
+                    </button>
                     
                     <div class="data-management">
-                        <button id="import-json">Importer JSON</button>
-                        <button id="export-json">Exporter JSON</button>
-                        <button id="reset-data">Réinitialiser</button>
+                        <button id="import-json">
+                            <i class="fas fa-file-import"></i> Importer JSON
+                        </button>
+                        <button id="export-json">
+                            <i class="fas fa-file-export"></i> Exporter JSON
+                        </button>
+                        <button id="reset-data">
+                            <i class="fas fa-trash"></i> Réinitialiser
+                        </button>
                         <input type="file" id="file-input" accept=".json">
                     </div>
                 </div>
                 
                 <div class="panel">
-                    <h2 class="panel-title">Filtrer les Articles</h2>
+                    <h2 class="panel-title">
+                        <i class="fas fa-filter"></i> Filtrer les Articles
+                    </h2>
                     <div class="form-group">
-                        <label>Catégories</label>
+                        <label><i class="fas fa-folder"></i> Catégories</label>
                         <div class="categories">
                             <div class="category-btn active" data-category="all">Tous</div>
                             <div class="category-btn" data-category="électronique">Électronique</div>
@@ -710,7 +1126,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>Semaines</label>
+                        <label><i class="fas fa-calendar"></i> Semaines</label>
                         <div class="categories">
                             <div class="category-btn active" data-week="all">Toutes</div>
                             <div class="category-btn" data-week="semaine1">Semaine 1</div>
@@ -720,11 +1136,15 @@
                         </div>
                     </div>
                     
-                    <button id="print-all">Imprimer tous les QR Codes</button>
+                    <button id="print-all">
+                        <i class="fas fa-print"></i> Imprimer tous les QR Codes
+                    </button>
                 </div>
                 
                 <div class="panel">
-                    <h2 class="panel-title">Articles Générés</h2>
+                    <h2 class="panel-title">
+                        <i class="fas fa-qrcode"></i> Articles Générés
+                    </h2>
                     <div id="qr-codes-container" class="qr-grid">
                         <p id="no-qr-codes">Aucun QR code généré pour le moment</p>
                     </div>
@@ -734,35 +1154,51 @@
         
         <div class="panel">
             <div class="tab-buttons">
-                <button class="tab-btn active" data-tab="sales-analysis">Analyse des Ventes</button>
-                <button class="tab-btn" data-tab="stock-analysis">Analyse du Stock</button>
-                <button class="tab-btn" data-tab="category-analysis">Ventes par Catégorie</button>
-                <button class="tab-btn" data-tab="category-stats">Statistiques par Catégorie</button>
+                <button class="tab-btn active" data-tab="sales-analysis">
+                    <i class="fas fa-chart-line"></i> Analyse des Ventes
+                </button>
+                <button class="tab-btn" data-tab="stock-analysis">
+                    <i class="fas fa-boxes"></i> Analyse du Stock
+                </button>
+                <button class="tab-btn" data-tab="category-analysis">
+                    <i class="fas fa-chart-bar"></i> Ventes par Catégorie
+                </button>
+                <button class="tab-btn" data-tab="category-stats">
+                    <i class="fas fa-chart-pie"></i> Statistiques par Catégorie
+                </button>
             </div>
             
             <div class="tab-content active" id="sales-analysis">
-                <h2 class="panel-title">Analyse des Ventes</h2>
+                <h2 class="panel-title">
+                    <i class="fas fa-chart-line"></i> Analyse des Ventes
+                </h2>
                 <div class="chart-container">
                     <canvas id="sales-chart"></canvas>
                 </div>
             </div>
             
             <div class="tab-content" id="stock-analysis">
-                <h2 class="panel-title">Analyse du Stock</h2>
+                <h2 class="panel-title">
+                    <i class="fas fa-boxes"></i> Analyse du Stock
+                </h2>
                 <div class="chart-container">
                     <canvas id="stock-chart"></canvas>
                 </div>
             </div>
             
             <div class="tab-content" id="category-analysis">
-                <h2 class="panel-title">Ventes par Catégorie</h2>
+                <h2 class="panel-title">
+                    <i class="fas fa-chart-bar"></i> Ventes par Catégorie
+                </h2>
                 <div class="chart-container">
                     <canvas id="category-chart"></canvas>
                 </div>
             </div>
             
             <div class="tab-content" id="category-stats">
-                <h2 class="panel-title">Statistiques par Catégorie</h2>
+                <h2 class="panel-title">
+                    <i class="fas fa-chart-pie"></i> Statistiques par Catégorie
+                </h2>
                 <div id="category-stats-container" class="category-stats">
                     <!-- Les statistiques par catégorie seront générées ici -->
                 </div>
@@ -770,11 +1206,14 @@
         </div>
         
         <footer>
-            <p>Système Sécurisé de Gestion des Ventes | WhatsApp: 92871605</p>
+            <p><i class="fas fa-store"></i> Système Sécurisé de Gestion des Ventes | <i class="fab fa-whatsapp"></i> WhatsApp: 92871605</p>
         </footer>
     </div>
 
+    <!-- Le script JavaScript reste identique à celui fourni précédemment -->
     <script>
+        // Le code JavaScript complet reste exactement le même que dans votre version originale
+        // Il n'a pas été modifié pour maintenir la fonctionnalité
         document.addEventListener('DOMContentLoaded', function() {
             // Références aux éléments DOM
             const authContainer = document.getElementById('auth-container');
