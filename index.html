@@ -1,19 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr"> <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
-
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,6 +23,26 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+        }
+        
+        /* Bouton Retour */
+        .btn-retour {
+            padding: 10px 16px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-retour:hover {
+            background-color: #e0e0e0;
+            transform: translateX(-3px);
         }
         
         /* Header */
@@ -85,6 +91,19 @@
             opacity: 0.9;
         }
         
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
         /* Admin Button in Header */
         .admin-header-btn {
             background-color: rgba(255, 255, 255, 0.2);
@@ -98,6 +117,7 @@
             align-items: center;
             gap: 8px;
             font-weight: 500;
+            margin-top: 10px;
         }
         
         .admin-header-btn:hover {
@@ -154,6 +174,9 @@
             transition: color 0.3s;
             padding: 10px 15px;
             border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .nav-links a:hover {
@@ -185,7 +208,9 @@
         }
         
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             background-color: #25D366;
             color: white;
             padding: 15px 30px;
@@ -228,6 +253,10 @@
             color: #128C7E;
             margin-bottom: 15px;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .admin-panel input {
@@ -249,6 +278,10 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .admin-panel button:hover {
@@ -268,8 +301,20 @@
             width: 250px;
         }
         
+        .admin-links h3 {
+            color: #128C7E;
+            margin-bottom: 15px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
         .admin-links a {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 12px;
             margin-bottom: 10px;
             background-color: #f8f9fa;
@@ -314,11 +359,17 @@
             font-size: 32px;
             color: #128C7E;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .about-content p {
             margin-bottom: 15px;
             font-size: 17px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
         }
         
         .owner-info {
@@ -327,6 +378,13 @@
             border-radius: 10px;
             margin-top: 20px;
             border-left: 4px solid #25D366;
+        }
+        
+        .owner-info h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         /* Products Section */
@@ -339,6 +397,10 @@
             font-size: 32px;
             color: #128C7E;
             margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
         .product-grid {
@@ -378,12 +440,18 @@
             font-size: 18px;
             margin-bottom: 10px;
             color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .product-info p {
             color: #25D366;
             font-weight: bold;
             font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         /* Location Section */
@@ -417,6 +485,18 @@
         .address h3 {
             color: #128C7E;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .address p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
         }
         
         /* Services Section */
@@ -452,6 +532,118 @@
         .service-card h3 {
             margin-bottom: 15px;
             color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        /* Payment Card Section */
+        .payment-card {
+            margin: 60px 0;
+            text-align: center;
+        }
+        
+        .card-container {
+            background: linear-gradient(135deg, #128C7E, #25D366);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .card-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .card-description {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .card-features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card-feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+        }
+        
+        .card-feature i {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .card-feature span {
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .card-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background-color: white;
+            color: #128C7E;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background-color: #f0f0f0;
+        }
+        
+        .card-security {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         /* Management Section */
@@ -467,173 +659,16 @@
         .management h2 {
             font-size: 32px;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
         .management p {
             max-width: 700px;
             margin: 0 auto 30px;
             font-size: 18px;
-        }
-        
-        /* Payment Apps Section */
-        .payment-apps {
-            margin: 60px 0;
-        }
-        
-        .apps-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-        
-        .app-card {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            flex: 1 1 400px;
-            overflow: hidden;
-            text-align: center;
-            padding: 30px;
-            position: relative;
-        }
-        
-        .app-badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #ff6b6b;
-            color: white;
-            font-weight: bold;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-            transform: rotate(5deg);
-        }
-        
-        .app-logo {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .yass-logo {
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.3);
-        }
-        
-        .flooz-logo {
-            background: linear-gradient(to right, #2c6ed5, #4b8af7);
-            box-shadow: 0 8px 20px rgba(44, 110, 213, 0.25);
-        }
-        
-        .app-logo span {
-            font-size: 40px;
-            font-weight: bold;
-            color: white;
-        }
-        
-        .app-subtitle {
-            font-weight: 600;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-        
-        .yass-subtitle {
-            color: #ff7e5f;
-        }
-        
-        .flooz-subtitle {
-            color: #2c6ed5;
-        }
-        
-        .app-description {
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        
-        .download-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 16px 32px;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            margin-bottom: 30px;
-        }
-        
-        .yass-button {
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.4);
-        }
-        
-        .flooz-button {
-            background: linear-gradient(to right, #2c6ed5, #4b8af7);
-            box-shadow: 0 8px 20px rgba(44, 110, 213, 0.35);
-        }
-        
-        .download-button:hover {
-            transform: translateY(-3px);
-        }
-        
-        .yass-button:hover {
-            box-shadow: 0 8px 20px rgba(255, 126, 95, 0.6);
-        }
-        
-        .flooz-button:hover {
-            box-shadow: 0 12px 25px rgba(44, 110, 213, 0.5);
-        }
-        
-        .app-features {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .feature {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 130px;
-        }
-        
-        .feature i {
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-        
-        .yass-feature i {
-            color: #ff7e5f;
-        }
-        
-        .flooz-feature i {
-            color: #2c6ed5;
-        }
-        
-        .feature span {
-            font-size: 14px;
-            color: #666;
-            text-align: center;
-        }
-        
-        .app-footer {
-            margin-top: 30px;
-            font-size: 14px;
-            color: #999;
         }
         
         /* Footer */
@@ -655,13 +690,18 @@
             font-size: 20px;
             margin-bottom: 20px;
             color: #25D366;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .footer-column p, .footer-column a {
             margin-bottom: 10px;
             color: #ddd;
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .footer-column a:hover {
@@ -695,14 +735,22 @@
             border-top: 1px solid #555;
             font-size: 14px;
             color: #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .header-content {
                 flex-direction: column;
                 text-align: center;
                 gap: 15px;
+            }
+            
+            .contact-info {
+                align-items: center;
             }
             
             .about {
@@ -715,63 +763,286 @@
             }
             
             .hero h1 {
-                font-size: 32px;
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 17px;
+            }
+            
+            .admin-btn {
+                top: 130px;
+                right: 15px;
+                width: 55px;
+                height: 55px;
+            }
+            
+            .admin-panel, .admin-links {
+                right: 15px;
+                width: 280px;
+            }
+            
+            .card-features {
+                gap: 15px;
+            }
+            
+            .card-feature {
+                width: 110px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .brand-name {
+                font-size: 24px;
+            }
+            
+            .brand-slogan {
+                font-size: 14px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-links a {
+                justify-content: center;
+            }
+            
+            .hero {
+                padding: 70px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
             }
             
             .hero p {
                 font-size: 16px;
             }
             
+            .btn {
+                padding: 12px 25px;
+                font-size: 14px;
+            }
+            
+            .section-title {
+                font-size: 26px;
+            }
+            
+            .about-content h2 {
+                font-size: 26px;
+            }
+            
+            .about-content p {
+                font-size: 16px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .service-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .service-card {
+                padding: 20px;
+            }
+            
+            .management h2 {
+                font-size: 26px;
+            }
+            
+            .management p {
+                font-size: 16px;
+            }
+            
             .admin-btn {
-                top: 130px;
+                top: 120px;
                 right: 10px;
                 width: 50px;
                 height: 50px;
             }
             
+            .admin-btn i {
+                font-size: 20px;
+            }
+            
             .admin-panel, .admin-links {
                 right: 10px;
-                width: 280px;
+                width: 260px;
+                top: 180px;
             }
             
-            .admin-header-btn {
-                margin-top: 10px;
+            .card-container {
+                padding: 30px 20px;
             }
             
-            .app-features {
-                gap: 15px;
+            .card-title {
+                font-size: 28px;
             }
             
-            .feature {
-                width: 110px;
+            .card-description {
+                font-size: 16px;
             }
             
-            .apps-container {
-                flex-direction: column;
-                align-items: center;
+            .card-button {
+                padding: 14px 25px;
+                font-size: 16px;
             }
             
-            .app-card {
-                flex: 1 1 auto;
-                width: 100%;
-                max-width: 100%;
+            .card-features {
+                gap: 10px;
+            }
+            
+            .card-feature {
+                width: 100px;
             }
         }
         
         @media (max-width: 480px) {
-            .app-card {
-                padding: 20px;
+            .header-content {
+                padding: 0 10px;
             }
             
-            .download-button {
-                padding: 14px 25px;
-                font-size: 16px;
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .brand-name {
+                font-size: 22px;
+            }
+            
+            .contact-info p {
+                font-size: 13px;
+            }
+            
+            .hero {
+                padding: 50px 15px;
+                margin: 20px 0;
+            }
+            
+            .hero h1 {
+                font-size: 24px;
+            }
+            
+            .hero p {
+                font-size: 15px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 13px;
+                margin: 5px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .about-content h2 {
+                font-size: 22px;
+            }
+            
+            .about-content p {
+                font-size: 15px;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-card {
+                padding: 15px;
+            }
+            
+            .management {
+                padding: 40px 0;
+            }
+            
+            .management h2 {
+                font-size: 22px;
+            }
+            
+            .management p {
+                font-size: 15px;
+            }
+            
+            .admin-btn {
+                top: 110px;
+                right: 5px;
+                width: 45px;
+                height: 45px;
+            }
+            
+            .admin-panel, .admin-links {
+                right: 5px;
+                width: 240px;
+                top: 165px;
+            }
+            
+            .card-container {
+                padding: 20px 15px;
+            }
+            
+            .card-icon {
+                font-size: 50px;
+            }
+            
+            .card-title {
+                font-size: 24px;
+            }
+            
+            .card-description {
+                font-size: 15px;
+            }
+            
+            .card-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            
+            .card-features {
+                gap: 5px;
+            }
+            
+            .card-feature {
+                width: 90px;
+            }
+            
+            .card-feature span {
+                font-size: 12px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
         }
     </style>
 </head>
-    <button class="btn-retour" onclick="history.back()">← Retour</button>
 <body>
+    <!-- Bouton Retour -->
+    <div class="container">
+        <button class="btn-retour" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i> Retour
+        </button>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -798,13 +1069,13 @@
     <nav>
         <div class="container">
             <ul class="nav-links">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#produits">Produits</a></li>
-                <li><a href="#apropos">À Propos</a></li>
-                <li><a href="#localisation">Localisation</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#paiement-apps">Paiement Mobile</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#accueil"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="#produits"><i class="fas fa-shopping-bag"></i> Produits</a></li>
+                <li><a href="#apropos"><i class="fas fa-info-circle"></i> À Propos</a></li>
+                <li><a href="#localisation"><i class="fas fa-map-marker-alt"></i> Localisation</a></li>
+                <li><a href="#services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                <li><a href="#paiement-carte"><i class="fas fa-credit-card"></i> Paiement Carte</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -816,17 +1087,17 @@
 
     <!-- Admin Login Panel -->
     <div class="admin-panel" id="adminPanel">
-        <h3>Connexion Administrateur</h3>
+        <h3><i class="fas fa-user-shield"></i> Connexion Administrateur</h3>
         <input type="text" id="adminUsername" placeholder="Nom d'utilisateur">
         <input type="password" id="adminPassword" placeholder="Mot de passe">
-        <button onclick="loginAdmin()">Se connecter</button>
+        <button onclick="loginAdmin()"><i class="fas fa-sign-in-alt"></i> Se connecter</button>
     </div>
 
     <!-- Admin Links Panel -->
     <div class="admin-links" id="adminLinks">
-        <h3>Gestion Inventaire</h3>
-        <a href="inventaire.html" target="_blank">Accéder à l'inventaire</a>
-        <a href="#" onclick="logoutAdmin()">Déconnexion</a>
+        <h3><i class="fas fa-cogs"></i> Gestion Inventaire</h3>
+        <a href="inventaire.html" target="_blank"><i class="fas fa-boxes"></i> Accéder à l'inventaire</a>
+        <a href="#" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
     </div>
 
     <!-- Main Content -->
@@ -835,8 +1106,8 @@
         <section class="hero" id="accueil">
             <h1>Bienvenue à la Boutique KOLA</h1>
             <p>Découvrez une expérience shopping exceptionnelle avec nos produits de qualité et notre service personnalisé.</p>
-            <a href="#produits" class="btn">Découvrir nos produits</a>
-            <a href="#localisation" class="btn btn-outline">Nous trouver</a>
+            <a href="#produits" class="btn"><i class="fas fa-shopping-bag"></i> Découvrir nos produits</a>
+            <a href="#localisation" class="btn btn-outline"><i class="fas fa-map-marker-alt"></i> Nous trouver</a>
         </section>
 
         <!-- About Section -->
@@ -845,28 +1116,28 @@
                 <img src="https://images.unsplash.com/photo-1563014959-7aaa83350992?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Intérieur de la boutique KOLA">
             </div>
             <div class="about-content">
-                <h2>Notre Histoire</h2>
-                <p>Fondée en 2010, la Boutique KOLA est devenue une référence dans le retail de qualité à Lomé. Nous nous engageons à offrir à nos clients des produits soigneusement sélectionnés, alliant qualité, style et prix abordables.</p>
-                <p>Notre mission est de rendre accessible à tous les produits de qualité supérieure tout en garantissant une expérience client exceptionnelle.</p>
+                <h2><i class="fas fa-history"></i> Notre Histoire</h2>
+                <p><i class="fas fa-check-circle"></i> Fondée en 2010, la Boutique KOLA est devenue une référence dans le retail de qualité à Lomé. Nous nous engageons à offrir à nos clients des produits soigneusement sélectionnés, alliant qualité, style et prix abordables.</p>
+                <p><i class="fas fa-bullseye"></i> Notre mission est de rendre accessible à tous les produits de qualité supérieure tout en garantissant une expérience client exceptionnelle.</p>
                 
                 <div class="owner-info">
-                    <h3>Propriétaire: M. JEAN KOLA</h3>
-                    <p>Fondateur et passionné de commerce, M. KOLA supervise personnellement la sélection de chaque produit dans la boutique pour garantir votre satisfaction.</p>
+                    <h3><i class="fas fa-user-tie"></i> Propriétaire: M. JEAN KOLA</h3>
+                    <p><i class="fas fa-check"></i> Fondateur et passionné de commerce, M. KOLA supervise personnellement la sélection de chaque produit dans la boutique pour garantir votre satisfaction.</p>
                 </div>
             </div>
         </section>
 
         <!-- Products Section -->
         <section class="products" id="produits">
-            <h2 class="section-title">Nos Catégories de Produits</h2>
+            <h2 class="section-title"><i class="fas fa-box-open"></i> Nos Catégories de Produits</h2>
             <div class="product-grid">
                 <div class="product-card">
                     <div class="product-image">
                         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Électronique">
                     </div>
                     <div class="product-info">
-                        <h3>Électronique</h3>
-                        <p>Smartphones, Accessoires</p>
+                        <h3><i class="fas fa-mobile-alt"></i> Électronique</h3>
+                        <p><i class="fas fa-tag"></i> Smartphones, Accessoires</p>
                     </div>
                 </div>
                 
@@ -875,8 +1146,8 @@
                         <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Vêtements">
                     </div>
                     <div class="product-info">
-                        <h3>Vêtements</h3>
-                        <p>Mode Homme, Femme, Enfant</p>
+                        <h3><i class="fas fa-tshirt"></i> Vêtements</h3>
+                        <p><i class="fas fa-tag"></i> Mode Homme, Femme, Enfant</p>
                     </div>
                 </div>
                 
@@ -885,8 +1156,8 @@
                         <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Maison">
                     </div>
                     <div class="product-info">
-                        <h3>Articles Maison</h3>
-                        <p>Décoration, Utilitaires</p>
+                        <h3><i class="fas fa-home"></i> Articles Maison</h3>
+                        <p><i class="fas fa-tag"></i> Décoration, Utilitaires</p>
                     </div>
                 </div>
             </div>
@@ -894,27 +1165,27 @@
 
         <!-- Location Section -->
         <section class="location" id="localisation">
-            <h2 class="section-title">Nous Trouver</h2>
+            <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Nous Trouver</h2>
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.2892158932!2d1.2154081759962003!3d6.131722293937132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1023e3931c3e3e1f%3A0x6f3b3266d36dd39d!2sLom%C3%A9%2C%20Togo!5e0!3m2!1sfr!2sfr!4v1689876543210!5m2!1sfr!2sfr" allowfullscreen="" loading="lazy"></iframe>
             </div>
             <div class="address">
-                <h3>Adresse de la Boutique</h3>
+                <h3><i class="fas fa-store"></i> Adresse de la Boutique</h3>
                 <p><i class="fas fa-map-marker-alt"></i> Rue du Commerce, Avenue de la Libération</p>
-                <p>Lomé, Togo</p>
+                <p><i class="fas fa-city"></i> Lomé, Togo</p>
                 <p><i class="fas fa-clock"></i> Lundi - Samedi: 8h - 20h | Dimanche: 9h - 16h</p>
             </div>
         </section>
 
         <!-- Services Section -->
         <section class="services" id="services">
-            <h2 class="section-title">Nos Services</h2>
+            <h2 class="section-title"><i class="fas fa-concierge-bell"></i> Nos Services</h2>
             <div class="service-grid">
                 <div class="service-card">
                     <div class="service-icon">
                         <i class="fas fa-shipping-fast"></i>
                     </div>
-                    <h3>Livraison Rapide</h3>
+                    <h3><i class="fas fa-truck"></i> Livraison Rapide</h3>
                     <p>Nous livrons dans toute la ville de Lomé en moins de 24h</p>
                 </div>
                 
@@ -922,7 +1193,7 @@
                     <div class="service-icon">
                         <i class="fas fa-exchange-alt"></i>
                     </div>
-                    <h3>Retours Gratuits</h3>
+                    <h3><i class="fas fa-undo"></i> Retours Gratuits</h3>
                     <p>03jours pour changer d'avis et retourner vos articles</p>
                 </div>
                 
@@ -930,100 +1201,53 @@
                     <div class="service-icon">
                         <i class="fas fa-headset"></i>
                     </div>
-                    <h3>Support Client</h3>
+                    <h3><i class="fas fa-comments"></i> Support Client</h3>
                     <p>Une équipe à votre écoute pour répondre à toutes vos questions</p>
                 </div>
             </div>
         </section>
 
-        <!-- Payment Apps Section -->
-        <section class="payment-apps" id="paiement-apps">
-            <h2 class="section-title">Paiement Mobile</h2>
-            <div class="apps-container">
-                <!-- Yass-Togo App Card -->
-                <div class="app-card">
-                    <div class="app-logo yass-logo">
-                        <span>YASS</span>
+        <!-- Payment Card Section -->
+        <section class="payment-card" id="paiement-carte">
+            <h2 class="section-title"><i class="fas fa-credit-card"></i> Paiement par Carte</h2>
+            <div class="card-container">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="fas fa-credit-card"></i>
                     </div>
-                    
-                    <h1>Yass-Togo</h1>
-                    <div class="app-subtitle yass-subtitle">Service de paiement mobile T-Money</div>
-                    
-                    <p class="app-description">
-                        Effectuez vos paiements en toute simplicité avec l'application mobile T-Money. 
-                        Rechargez votre compte, payez vos factures et effectuez des transferts d'argent en toute sécurité.
+                    <h2 class="card-title">Paiement Sécurisé par Carte</h2>
+                    <p class="card-description">
+                        Effectuez vos achats en toute sécurité avec notre système de paiement par carte virtuelle. 
+                        Transactions rapides, sécurisées et sans contact.
                     </p>
                     
-                    <a href="https://play.google.com/store/apps/details?id=tg.togocom.tmoney" class="download-button yass-button" target="_blank">
-                        <i class="fab fa-google-play"></i>
-                        Télécharger l'application
-                    </a>
-                    
-                    <div class="app-features">
-                        <div class="feature yass-feature">
+                    <div class="card-features">
+                        <div class="card-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Paiement sécurisé</span>
+                        </div>
+                        <div class="card-feature">
                             <i class="fas fa-bolt"></i>
-                            <span>Paiements rapides</span>
+                            <span>Transaction rapide</span>
                         </div>
-                        <div class="feature yass-feature">
+                        <div class="card-feature">
                             <i class="fas fa-lock"></i>
-                            <span>Sécurisé</span>
+                            <span>Données cryptées</span>
                         </div>
-                        <div class="feature yass-feature">
+                        <div class="card-feature">
                             <i class="fas fa-mobile-alt"></i>
-                            <span>Recharge mobile</span>
-                        </div>
-                        <div class="feature yass-feature">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Protection des données</span>
+                            <span>Support mobile</span>
                         </div>
                     </div>
                     
-                    <div class="app-footer">
-                        <p>Disponible sur Google Play Store</p>
-                    </div>
-                </div>
-                
-                <!-- Flooz Togo App Card -->
-                <div class="app-card">
-                    <div class="app-badge">Nouveau</div>
-                    <div class="app-logo flooz-logo">
-                        <span>F</span>
-                    </div>
-                    
-                    <h1>Flooz Togo</h1>
-                    <div class="app-subtitle flooz-subtitle">Service de paiement mobile</div>
-                    
-                    <p class="app-description">
-                        Flooz révolutionne votre quotidien avec une solution de paiement mobile simple, rapide et sécurisée. 
-                        Effectuez des transferts d'argent, payez vos factures et rechargez votre compte en quelques clics.
-                    </p>
-                    
-                    <a href="https://play.google.com/store/apps/details?id=com.huawei.moovmoney.tg.uat" class="download-button flooz-button" target="_blank">
-                        <i class="fab fa-google-play"></i>
-                        Télécharger l'application
+                    <a href="https://jeanskodoc.github.io/Carte-virtuelle-/" class="card-button" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        Accéder au paiement par carte
                     </a>
                     
-                    <div class="app-features">
-                        <div class="feature flooz-feature">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span>Transfert d'argent</span>
-                        </div>
-                        <div class="feature flooz-feature">
-                            <i class="fas fa-money-bill-wave"></i>
-                            <span>Paiement de factures</span>
-                        </div>
-                        <div class="feature flooz-feature">
-                            <i class="fas fa-mobile-alt"></i>
-                            <span>Recharge mobile</span>
-                        </div>
-                        <div class="feature flooz-feature">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>100% Sécurisé</span>
-                        </div>
-                    </div>
-                    
-                    <div class="app-footer">
-                        <p>Disponible gratuitement sur Google Play Store</p>
+                    <div class="card-security">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Transactions 100% sécurisées avec cryptage SSL</span>
                     </div>
                 </div>
             </div>
@@ -1031,12 +1255,12 @@
 
         <!-- Management Section -->
         <section class="management" id="gestion">
-            <h2>Espace Gestion des Ventes</h2>
+            <h2><i class="fas fa-chart-line"></i> Espace Gestion des Ventes</h2>
             <p>Accédez au système de gestion et d'analyse des ventes de la boutique</p>
-            <a href="scan.html" class="btn">Accéder à la gestion</a>
-            <h2>Espace achats en ligne</h2>
+            <a href="scan.html" class="btn"><i class="fas fa-cogs"></i> Accéder à la gestion</a>
+            <h2><i class="fas fa-shopping-cart"></i> Espace achats en ligne</h2>
             <p>Accédez au système de commande et d'achats en ligne</p>
-            <a href="achat.html" class="btn">Accéder à l'achat</a>
+            <a href="achat.html" class="btn"><i class="fas fa-store"></i> Accéder à l'achat</a>
         </section>
     </div>
      
@@ -1045,37 +1269,38 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>Boutique KOLA</h3>
-                    <p>Votre destination shopping préférée à Lomé depuis 2024.</p>
+                    <h3><i class="fas fa-store"></i> Boutique KOLA</h3>
+                    <p><i class="fas fa-check"></i> Votre destination shopping préférée à Lomé depuis 2024.</p>
                 </div>
                 
                 <div class="footer-column">
-                    <h3>Liens Rapides</h3>
-                    <a href="#accueil">Accueil</a>
-                    <a href="#produits">Produits</a>
-                    <a href="#apropos">À Propos</a>
-                    <a href="#localisation">Localisation</a>
-                    <a href="#paiement-apps">Paiement Mobile</a>
-                    <a href="#contact">Contact</a>
+                    <h3><i class="fas fa-link"></i> Liens Rapides</h3>
+                    <a href="#accueil"><i class="fas fa-home"></i> Accueil</a>
+                    <a href="#produits"><i class="fas fa-shopping-bag"></i> Produits</a>
+                    <a href="#apropos"><i class="fas fa-info-circle"></i> À Propos</a>
+                    <a href="#localisation"><i class="fas fa-map-marker-alt"></i> Localisation</a>
+                    <a href="#paiement-carte"><i class="fas fa-credit-card"></i> Paiement Carte</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
                 </div>
                 
                 <div class="footer-column">
-                    <h3>Contactez-nous</h3>
+                    <h3><i class="fas fa-address-book"></i> Contactez-nous</h3>
                     <p><i class="fas fa-map-marker-alt"></i> Rue du Commerce, Lomé, Togo</p>
                     <p><i class="fas fa-phone"></i> +228 92 87 16 05</p>
                     <p><i class="fas fa-envelope"></i> jeanskodoc22@gmail.com</p>
                 </div>
                 
                 <div class="footer-column">
-                    <h3>Horaires d'Ouverture</h3>
-                    <p>Lundi - Vendredi: 8h - 20h</p>
-                    <p>Samedi: 9h - 20h</p>
-                    <p>Dimanche: 9h - 16h</p>
+                    <h3><i class="fas fa-clock"></i> Horaires d'Ouverture</h3>
+                    <p><i class="fas fa-calendar-day"></i> Lundi - Vendredi: 8h - 20h</p>
+                    <p><i class="fas fa-calendar-day"></i> Samedi: 9h - 20h</p>
+                    <p><i class="fas fa-calendar-day"></i> Dimanche: 9h - 16h</p>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 Boutique KOLA - Tous droits réservés. Créé par M. Jean KOLA</p>
+                <i class="far fa-copyright"></i>
+                <p>2025 Boutique KOLA - Tous droits réservés. Créé par M. Jean KOLA</p>
             </div>
         </div>
     </footer>
