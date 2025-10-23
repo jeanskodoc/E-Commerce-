@@ -172,20 +172,93 @@
             min-height: 100px;
         }
         
-        .gps-info {
-            background: #f0fff0;
-            padding: 15px;
+        .gps-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 25px;
+        }
+        
+        .gps-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .gps-title {
+            font-weight: 600;
+            color: #128C7E;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-gps {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
             border-radius: 5px;
-            border-left: 4px solid #25D366;
-            margin-top: 10px;
             font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gps:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+        
+        .btn-gps:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .gps-status {
             display: flex;
             align-items: center;
             gap: 10px;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
         }
         
-        .gps-info i {
-            color: #25D366;
+        .gps-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .gps-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .gps-loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .gps-coords {
+            font-family: monospace;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            font-size: 13px;
+            word-break: break-all;
         }
         
         .btn-submit {
@@ -341,6 +414,12 @@
                 font-size: 24px;
             }
             
+            .gps-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
             .info-section {
                 padding: 30px 20px;
             }
@@ -469,9 +548,27 @@
                 <div class="form-group">
                     <label for="adresse"><i class="fas fa-map-marker-alt"></i> Adresse détaillée *</label>
                     <textarea id="adresse" name="adresse" placeholder="Quartier, rue, numéro de maison..." required></textarea>
-                    <div class="gps-info">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Vos coordonnées GPS seront automatiquement détectées lors de l'envoi</span>
+                </div>
+
+                <!-- Section GPS -->
+                <div class="gps-section">
+                    <div class="gps-header">
+                        <div class="gps-title">
+                            <i class="fas fa-map-pin"></i>
+                            Coordonnées GPS
+                        </div>
+                        <button type="button" class="btn-gps" id="btnGps">
+                            <i class="fas fa-crosshairs"></i>
+                            Obtenir ma position GPS
+                        </button>
+                    </div>
+                    
+                    <div id="gpsStatus" style="display: none;">
+                        <!-- Le statut GPS sera affiché ici dynamiquement -->
+                    </div>
+                    
+                    <div id="gpsCoords" style="display: none;">
+                        <!-- Les coordonnées GPS seront affichées ici -->
                     </div>
                 </div>
                 
@@ -495,9 +592,10 @@
         <section class="info-section">
             <h2><i class="fas fa-info-circle"></i> Comment ça marche ?</h2>
             <p>1. Remplissez le formulaire de commande ci-dessus</p>
-            <p>2. Cliquez sur "Envoyer la commande via WhatsApp"</p>
-            <p>3. Votre commande sera envoyée directement sur WhatsApp</p>
-            <p>4. Nous vous contacterons pour confirmer et finaliser votre commande</p>
+            <p>2. Cliquez sur "Obtenir ma position GPS" pour partager votre localisation</p>
+            <p>3. Cliquez sur "Envoyer la commande via WhatsApp"</p>
+            <p>4. Votre commande sera envoyée directement sur WhatsApp</p>
+            <p>5. Nous vous contacterons pour confirmer et finaliser votre commande</p>
             
             <a href="https://wa.me/22892871605" class="whatsapp-contact" target="_blank">
                 <i class="fab fa-whatsapp"></i> Nous contacter directement
@@ -536,102 +634,140 @@
     </footer>
 
     <script>
-        document.getElementById('commandeForm').addEventListener('submit', async function(e) {
+        // Variables pour stocker les coordonnées GPS
+        let gpsCoordinates = null;
+
+        // Gestion du bouton GPS
+        document.getElementById('btnGps').addEventListener('click', function() {
+            getGPSLocation();
+        });
+
+        // Fonction pour obtenir la position GPS
+        function getGPSLocation() {
+            const btnGps = document.getElementById('btnGps');
+            const gpsStatus = document.getElementById('gpsStatus');
+            const gpsCoords = document.getElementById('gpsCoords');
+
+            // Réinitialiser l'affichage
+            gpsStatus.style.display = 'block';
+            gpsCoords.style.display = 'none';
+            gpsStatus.className = 'gps-status gps-loading';
+            gpsStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Localisation en cours...';
+
+            btnGps.disabled = true;
+            btnGps.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Localisation...';
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    // Succès
+                    function(position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        
+                        gpsCoordinates = `${latitude},${longitude}`;
+                        
+                        // Afficher le succès
+                        gpsStatus.className = 'gps-status gps-success';
+                        gpsStatus.innerHTML = '<i class="fas fa-check-circle"></i> Position GPS obtenue avec succès !';
+                        
+                        // Afficher les coordonnées
+                        gpsCoords.style.display = 'block';
+                        gpsCoords.className = 'gps-coords';
+                        gpsCoords.innerHTML = `<strong>Coordonnées:</strong> ${gpsCoordinates}`;
+                        
+                        btnGps.disabled = false;
+                        btnGps.innerHTML = '<i class="fas fa-check"></i> Position obtenue';
+                    },
+                    // Erreur
+                    function(error) {
+                        let errorMessage = 'Erreur lors de la localisation';
+                        
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = 'Permission de localisation refusée';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = 'Position indisponible';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = 'Délai de localisation dépassé';
+                                break;
+                        }
+                        
+                        gpsStatus.className = 'gps-status gps-error';
+                        gpsStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${errorMessage}`;
+                        
+                        btnGps.disabled = false;
+                        btnGps.innerHTML = '<i class="fas fa-crosshairs"></i> Réessayer la localisation';
+                    },
+                    // Options
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                gpsStatus.className = 'gps-status gps-error';
+                gpsStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Géolocalisation non supportée par votre navigateur';
+                
+                btnGps.disabled = false;
+                btnGps.innerHTML = '<i class="fas fa-crosshairs"></i> Obtenir ma position GPS';
+            }
+        }
+
+        // Gestion de l'envoi du formulaire
+        document.getElementById('commandeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Récupération des coordonnées GPS...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Préparation de la commande...';
+
+            // Récupérer les valeurs du formulaire
+            const nom = document.getElementById('nom').value;
+            const region = document.getElementById('region').value;
+            const ville = document.getElementById('ville').value;
+            const adresse = document.getElementById('adresse').value;
+            const articles = document.getElementById('articles').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+
+            // Construire le message WhatsApp
+            let whatsappMessage = `NOUVELLE COMMANDE - BOUTIQUE KOLA%0A%0A`;
+            whatsappMessage += `📋 *INFORMATIONS CLIENT*%0A`;
+            whatsappMessage += `👤 *Nom:* ${nom}%0A`;
+            whatsappMessage += `📱 *WhatsApp:* ${whatsapp}%0A%0A`;
             
-            try {
-                // Récupérer les coordonnées GPS
-                let gpsCoords = "Non disponible";
-                
-                if (navigator.geolocation) {
-                    const position = await new Promise((resolve, reject) => {
-                        navigator.geolocation.getCurrentPosition(resolve, reject, {
-                            enableHighAccuracy: true,
-                            timeout: 10000,
-                            maximumAge: 0
-                        });
-                    });
-                    
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    gpsCoords = `${latitude},${longitude}`;
-                }
-                
-                // Récupérer les valeurs du formulaire
-                const nom = document.getElementById('nom').value;
-                const region = document.getElementById('region').value;
-                const ville = document.getElementById('ville').value;
-                const adresse = document.getElementById('adresse').value;
-                const articles = document.getElementById('articles').value;
-                const whatsapp = document.getElementById('whatsapp').value;
-                
-                // Construire le message WhatsApp
-                let whatsappMessage = `NOUVELLE COMMANDE - BOUTIQUE KOLA%0A%0A`;
-                whatsappMessage += `📋 *INFORMATIONS CLIENT*%0A`;
-                whatsappMessage += `👤 *Nom:* ${nom}%0A`;
-                whatsappMessage += `📱 *WhatsApp:* ${whatsapp}%0A%0A`;
-                
-                whatsappMessage += `📍 *ADRESSE DE LIVRAISON*%0A`;
-                whatsappMessage += `🏛️ *Région:* ${region}%0A`;
-                whatsappMessage += `🏙️ *Ville:* ${ville}%0A`;
-                whatsappMessage += `📬 *Adresse:* ${adresse}%0A`;
-                whatsappMessage += `🌐 *Coordonnées GPS:* ${gpsCoords}%0A%0A`;
-                
-                whatsappMessage += `🛒 *ARTICLES COMMANDÉS*%0A`;
-                whatsappMessage += `${articles}%0A%0A`;
-                
-                whatsappMessage += `_Merci de traiter cette commande_ 🛍️`;
-                
-                // Numéro WhatsApp de la boutique
-                const phoneNumber = '22892871605';
-                
-                // Ouvrir WhatsApp avec le message pré-rempli
+            whatsappMessage += `📍 *ADRESSE DE LIVRAISON*%0A`;
+            whatsappMessage += `🏛️ *Région:* ${region}%0A`;
+            whatsappMessage += `🏙️ *Ville:* ${ville}%0A`;
+            whatsappMessage += `📬 *Adresse:* ${adresse}%0A`;
+            
+            // Ajouter les coordonnées GPS si disponibles
+            if (gpsCoordinates) {
+                whatsappMessage += `🌐 *Coordonnées GPS:* ${gpsCoordinates}%0A`;
+            } else {
+                whatsappMessage += `⚠️ *GPS:* Non fourni%0A`;
+            }
+            
+            whatsappMessage += `%0A🛒 *ARTICLES COMMANDÉS*%0A`;
+            whatsappMessage += `${articles}%0A%0A`;
+            
+            whatsappMessage += `_Merci de traiter cette commande_ 🛍️`;
+
+            // Numéro WhatsApp de la boutique
+            const phoneNumber = '22892871605';
+            
+            // Ouvrir WhatsApp avec le message pré-rempli
+            setTimeout(() => {
                 window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
                 
-            } catch (error) {
-                console.error('Erreur GPS:', error);
-                
-                // Récupérer les valeurs du formulaire même sans GPS
-                const nom = document.getElementById('nom').value;
-                const region = document.getElementById('region').value;
-                const ville = document.getElementById('ville').value;
-                const adresse = document.getElementById('adresse').value;
-                const articles = document.getElementById('articles').value;
-                const whatsapp = document.getElementById('whatsapp').value;
-                
-                // Construire le message WhatsApp sans GPS
-                let whatsappMessage = `NOUVELLE COMMANDE - BOUTIQUE KOLA%0A%0A`;
-                whatsappMessage += `📋 *INFORMATIONS CLIENT*%0A`;
-                whatsappMessage += `👤 *Nom:* ${nom}%0A`;
-                whatsappMessage += `📱 *WhatsApp:* ${whatsapp}%0A%0A`;
-                
-                whatsappMessage += `📍 *ADRESSE DE LIVRAISON*%0A`;
-                whatsappMessage += `🏛️ *Région:* ${region}%0A`;
-                whatsappMessage += `🏙️ *Ville:* ${ville}%0A`;
-                whatsappMessage += `📬 *Adresse:* ${adresse}%0A`;
-                whatsappMessage += `⚠️ *GPS:* Non disponible%0A%0A`;
-                
-                whatsappMessage += `🛒 *ARTICLES COMMANDÉS*%0A`;
-                whatsappMessage += `${articles}%0A%0A`;
-                
-                whatsappMessage += `_Merci de traiter cette commande_ 🛍️`;
-                
-                // Numéro WhatsApp de la boutique
-                const phoneNumber = '22892871605';
-                
-                // Ouvrir WhatsApp avec le message pré-rempli
-                window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
-            } finally {
-                // Réactiver le bouton
+                // Réactiver le bouton après un délai
                 setTimeout(() => {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la commande via WhatsApp';
-                }, 2000);
-            }
+                }, 3000);
+            }, 1000);
         });
     </script>
 </body>
