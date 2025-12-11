@@ -616,28 +616,91 @@
             margin-top: 20px;
         }
         
+        /* STYLE CORRIGÉ POUR LA CHECKBOX */
         .checkbox-container {
             display: flex;
             align-items: flex-start;
             margin-bottom: 15px;
-            padding: 10px;
+            padding: 15px;
             background: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s;
         }
         
-        .checkbox-container input {
-            width: 22px;
-            height: 22px;
-            margin-right: 12px;
+        .checkbox-container:focus-within {
+            border-color: var(--primary);
+        }
+        
+        .checkbox-container input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
             margin-top: 2px;
             flex-shrink: 0;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: white;
+            border: 2px solid #adb5bd;
+            border-radius: 6px;
+            position: relative;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-container input[type="checkbox"]:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .checkbox-container input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .checkbox-container input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         
         .checkbox-container label {
             font-weight: normal;
             margin-bottom: 0;
             font-size: 15px;
-            line-height: 1.4;
+            line-height: 1.5;
+            cursor: pointer;
+            user-select: none;
+            color: #495057;
+            flex: 1;
+        }
+        
+        .checkbox-container label strong {
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        .checkbox-error {
+            border-color: var(--danger) !important;
+            background-color: #fff5f5;
+        }
+        
+        .checkbox-error-message {
+            color: var(--danger);
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+            padding-left: 39px;
+        }
+        
+        .checkbox-error-message.show {
+            display: block;
         }
         
         .currency {
@@ -753,6 +816,74 @@
         
         .btn-pulse {
             animation: pulse 2s infinite;
+        }
+        
+        /* Lien pour les conditions générales */
+        .conditions-link {
+            color: var(--primary);
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .conditions-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .conditions-content {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .conditions-content h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .conditions-content p {
+            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .conditions-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .conditions-content li {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .close-conditions {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -966,10 +1097,20 @@
             
             <div class="section">
                 <h2><i class="fas fa-paper-plane"></i> Envoyer la Commande</h2>
-                <div class="checkbox-container">
-                    <input type="checkbox" id="confirm" required>
-                    <label for="confirm">Je confirme que les informations ci-dessus sont correctes et j'accepte les conditions générales</label>
+                
+                <!-- CHECKBOX CORRIGÉE -->
+                <div class="checkbox-container" id="checkbox-container">
+                    <input type="checkbox" id="confirm" name="confirm" required>
+                    <label for="confirm">
+                        Je confirme que les informations ci-dessus sont correctes et j'accepte les 
+                        <span class="conditions-link" id="conditions-link">conditions générales</span>
+                    </label>
                 </div>
+                <div class="checkbox-error-message" id="checkbox-error">
+                    Vous devez accepter les conditions générales pour continuer
+                </div>
+                
+                <!-- Boutons d'action seront dans la section flottante -->
             </div>
         </div>
         
@@ -1034,6 +1175,30 @@
         </div>
     </div>
 
+    <!-- Modal des Conditions Générales -->
+    <div class="conditions-modal" id="conditions-modal">
+        <div class="conditions-content">
+            <h3>Conditions Générales d'Utilisation</h3>
+            
+            <p>En utilisant ce service de commande en ligne, vous acceptez les conditions suivantes :</p>
+            
+            <ul>
+                <li>Les informations personnelles fournies doivent être exactes et complètes.</li>
+                <li>Les commandes sont traitées dans un délai de 24 à 48 heures.</li>
+                <li>Les frais de livraison sont fixés à 2 000 FCFA pour toutes les commandes.</li>
+                <li>Le paiement doit être effectué avant la préparation de la commande.</li>
+                <li>En cas de retard de livraison, vous serez informé par WhatsApp.</li>
+                <li>Les retours sont acceptés sous 7 jours pour les articles non ouverts.</li>
+                <li>Les produits électroniques bénéficient d'une garantie de 3 mois.</li>
+                <li>Les produits alimentaires ne peuvent être retournés pour des raisons d'hygiène.</li>
+            </ul>
+            
+            <p>Pour toute question concernant votre commande, contactez notre service client au 92 87 16 05.</p>
+            
+            <button class="close-conditions" id="close-conditions">J'ai compris</button>
+        </div>
+    </div>
+
     <!-- Toast notification -->
     <div class="toast" id="toast"></div>
 
@@ -1045,6 +1210,14 @@
             const esodiModalBtn = document.getElementById('esodi-modal-btn');
             const cancelBtn = document.getElementById('cancel-btn');
             const toast = document.getElementById('toast');
+            
+            // Éléments de la checkbox
+            const checkbox = document.getElementById('confirm');
+            const checkboxContainer = document.getElementById('checkbox-container');
+            const checkboxError = document.getElementById('checkbox-error');
+            const conditionsLink = document.getElementById('conditions-link');
+            const conditionsModal = document.getElementById('conditions-modal');
+            const closeConditions = document.getElementById('close-conditions');
             
             // Éléments GPS
             const getGpsBtn = document.getElementById('get-gps-btn');
@@ -1079,6 +1252,35 @@
                         this.style.transform = 'scale(1)';
                     }, 150);
                 });
+            });
+            
+            // Gestion de la checkbox
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    checkboxContainer.classList.remove('checkbox-error');
+                    checkboxError.classList.remove('show');
+                } else {
+                    checkboxContainer.classList.add('checkbox-error');
+                    checkboxError.classList.add('show');
+                }
+            });
+            
+            // Clic sur le lien des conditions générales
+            conditionsLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                conditionsModal.style.display = 'flex';
+            });
+            
+            // Fermer le modal des conditions
+            closeConditions.addEventListener('click', function() {
+                conditionsModal.style.display = 'none';
+            });
+            
+            // Fermer le modal en cliquant à l'extérieur
+            conditionsModal.addEventListener('click', function(event) {
+                if (event.target === conditionsModal) {
+                    conditionsModal.style.display = 'none';
+                }
             });
             
             // Gestion des quantités
@@ -1273,8 +1475,21 @@
             
             // Bouton WhatsApp
             document.getElementById('whatsapp-btn').addEventListener('click', function() {
-                if (!document.getElementById('confirm').checked) {
-                    showToast('Veuillez confirmer les informations', 'warning');
+                // Vérifier la checkbox
+                if (!checkbox.checked) {
+                    checkboxContainer.classList.add('checkbox-error');
+                    checkboxError.classList.add('show');
+                    showToast('Veuillez accepter les conditions générales', 'warning');
+                    
+                    // Animation de la checkbox
+                    checkboxContainer.style.transform = 'translateX(-5px)';
+                    setTimeout(() => {
+                        checkboxContainer.style.transform = 'translateX(5px)';
+                    }, 100);
+                    setTimeout(() => {
+                        checkboxContainer.style.transform = 'translateX(0)';
+                    }, 200);
+                    
                     return;
                 }
                 
@@ -1324,6 +1539,7 @@
                 
                 message += `%0A*Total:* ${document.getElementById('total').textContent}%0A%0A`;
                 message += `*Méthode de paiement:* Carte ESODI%0A`;
+                message += `*Conditions acceptées:* Oui%0A`;
                 message += `Merci de confirmer ma commande.`;
                 
                 // Animation du bouton
@@ -1373,8 +1589,21 @@
             
             // Valider le formulaire
             function validateForm() {
-                if (!document.getElementById('confirm').checked) {
-                    showToast('Veuillez confirmer que les informations sont correctes', 'warning');
+                // Vérifier la checkbox
+                if (!checkbox.checked) {
+                    checkboxContainer.classList.add('checkbox-error');
+                    checkboxError.classList.add('show');
+                    showToast('Veuillez accepter les conditions générales', 'warning');
+                    
+                    // Animation de la checkbox
+                    checkboxContainer.style.transform = 'translateX(-5px)';
+                    setTimeout(() => {
+                        checkboxContainer.style.transform = 'translateX(5px)';
+                    }, 100);
+                    setTimeout(() => {
+                        checkboxContainer.style.transform = 'translateX(0)';
+                    }, 200);
+                    
                     return false;
                 }
                 
