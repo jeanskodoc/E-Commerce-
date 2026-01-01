@@ -5,485 +5,962 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commande - Boutique KOLA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Variables CSS avec palette moderne */
+        :root {
+            --primary-50: #f0f9f0;
+            --primary-100: #daf1db;
+            --primary-200: #b8e6ba;
+            --primary-300: #8bd890;
+            --primary-400: #5dc464;
+            --primary-500: #3fa946;
+            --primary-600: #2f8a35;
+            --primary-700: #276d2c;
+            --primary-800: #225726;
+            --primary-900: #1d4921;
+            
+            --secondary-50: #fff6e6;
+            --secondary-100: #ffe9c2;
+            --secondary-200: #ffd685;
+            --secondary-300: #ffbc3d;
+            --secondary-400: #ffa712;
+            --secondary-500: #f99406;
+            --secondary-600: #dd7802;
+            --secondary-700: #b75c06;
+            --secondary-800: #95480c;
+            --secondary-900: #7a3b0d;
+            
+            --accent-50: #ffeaea;
+            --accent-100: #ffd4d4;
+            --accent-200: #ffadad;
+            --accent-300: #ff7b7b;
+            --accent-400: #ff4747;
+            --accent-500: #ff2222;
+            --accent-600: #ee1111;
+            --accent-700: #c90c0c;
+            --accent-800: #a80f0f;
+            --accent-900: #8a1414;
+            
+            --neutral-50: #fafafa;
+            --neutral-100: #f5f5f5;
+            --neutral-200: #e5e5e5;
+            --neutral-300: #d4d4d4;
+            --neutral-400: #a3a3a3;
+            --neutral-500: #737373;
+            --neutral-600: #525252;
+            --neutral-700: #404040;
+            --neutral-800: #262626;
+            --neutral-900: #171717;
+            
+            --success-50: #f0fdf4;
+            --success-100: #dcfce7;
+            --success-500: #22c55e;
+            --success-600: #16a34a;
+            --success-700: #15803d;
+            
+            --warning-50: #fffbeb;
+            --warning-100: #fef3c7;
+            --warning-500: #f59e0b;
+            --warning-600: #d97706;
+            
+            --error-50: #fef2f2;
+            --error-100: #fee2e2;
+            --error-500: #ef4444;
+            --error-600: #dc2626;
+            
+            --info-50: #eff6ff;
+            --info-100: #dbeafe;
+            --info-500: #3b82f6;
+            --info-600: #2563eb;
+            
+            --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.15);
+            --shadow-2xl: 0 24px 72px rgba(0, 0, 0, 0.2);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-2xl: 32px;
+            --radius-full: 9999px;
+            
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --container-sm: 640px;
+            --container-md: 768px;
+            --container-lg: 1024px;
+            --container-xl: 1280px;
+            --container-2xl: 1536px;
+        }
+        
+        /* Reset et styles de base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
         }
         
         body {
-            background-color: #f8f9fa;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, #ffffff 100%);
+            color: var(--neutral-900);
             line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-base);
+        }
+        
+        /* Conteneur responsive */
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            padding-right: clamp(1rem, 5vw, 2rem);
+            padding-left: clamp(1rem, 5vw, 2rem);
+            margin-right: auto;
+            margin-left: auto;
+            max-width: var(--container-xl);
         }
         
         /* Bouton Retour */
         .btn-retour {
-            padding: 10px 16px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: #333;
+            gap: 0.75rem;
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1.25rem, 3vw, 1.5rem);
+            background: linear-gradient(135deg, var(--neutral-100) 0%, var(--neutral-200) 100%);
+            border: 2px solid var(--neutral-300);
+            border-radius: var(--radius-lg);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-weight: 500;
+            color: var(--neutral-800);
+            margin: clamp(1.5rem, 4vw, 2rem) 0 clamp(1rem, 3vw, 1.5rem);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-retour::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(63, 169, 70, 0.1) 0%, rgba(255, 151, 6, 0.1) 100%);
+            opacity: 0;
+            transition: var(--transition-base);
         }
         
         .btn-retour:hover {
-            background-color: #e0e0e0;
-            transform: translateX(-3px);
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-400);
+            color: var(--primary-700);
+        }
+        
+        .btn-retour:hover::before {
+            opacity: 1;
         }
         
         /* Header */
         header {
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-900) 100%);
             color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: clamp(1.5rem, 4vw, 2rem) 0;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
         }
         
         .header-content {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: clamp(1rem, 3vw, 1.5rem);
+            padding: 0.75rem;
+            transition: var(--transition-base);
+        }
+        
+        .logo-container:hover {
+            transform: translateY(-2px);
         }
         
         .logo {
-            width: 70px;
-            height: 70px;
-            background: white;
+            width: clamp(4rem, 9vw, 5rem);
+            height: clamp(4rem, 9vw, 5rem);
+            background: linear-gradient(135deg, var(--secondary-400) 0%, var(--secondary-600) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            color: #25D366;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            color: white;
+            font-weight: 800;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transition: var(--transition-base);
+        }
+        
+        .logo-container:hover .logo::before {
+            transform: translateX(100%);
+        }
+        
+        .brand-info {
+            text-align: center;
         }
         
         .brand-name {
-            font-size: 28px;
-            font-weight: bold;
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.02em;
         }
         
         .brand-slogan {
-            font-size: 16px;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            color: var(--primary-100);
             opacity: 0.9;
+            font-weight: 400;
         }
         
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 40px 20px;
-            margin: 30px 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: clamp(3rem, 8vw, 5rem) clamp(1rem, 5vw, 2rem);
+            margin: clamp(1.5rem, 4vw, 3rem) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(63, 169, 70, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 151, 6, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
         
         .hero h1 {
-            font-size: 36px;
-            margin-bottom: 15px;
-            color: #128C7E;
+            font-size: clamp(1.75rem, 4.5vw, 3rem);
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            color: var(--primary-800);
+            line-height: 1.1;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--secondary-600) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .hero p {
-            font-size: 18px;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--neutral-700);
             max-width: 700px;
             margin: 0 auto;
-            color: #555;
+            line-height: 1.7;
         }
         
         /* Form Section */
         .form-section {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin: 30px 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+            padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            margin: clamp(2rem, 5vw, 3rem) 0;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
         
         .section-title {
             text-align: center;
-            font-size: 28px;
-            color: #128C7E;
-            margin-bottom: 30px;
+            font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+            color: var(--primary-800);
+            margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 1rem;
+        }
+        
+        .section-title i {
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-500) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2em;
+        }
+        
+        /* Formulaire */
+        #commandeForm {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1.5rem, 3vw, 2rem);
         }
         
         .form-group {
-            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
         
         .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #333;
+            font-weight: 600;
+            color: var(--neutral-800);
+            font-size: clamp(0.875rem, 2vw, 1rem);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.75rem;
+        }
+        
+        .form-group label i {
+            color: var(--primary-500);
+            width: 20px;
+            text-align: center;
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border 0.3s;
+            padding: clamp(0.875rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.25rem);
+            border: 2px solid var(--neutral-300);
+            border-radius: var(--radius-lg);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-base);
+            background: white;
+            color: var(--neutral-900);
         }
         
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #25D366;
             outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(63, 169, 70, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--neutral-400);
         }
         
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
+            line-height: 1.5;
         }
         
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%233fa946'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em;
+            padding-right: 3rem;
+        }
+        
+        /* GPS Section */
         .gps-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--neutral-50) 0%, var(--neutral-100) 100%);
+            padding: clamp(1.5rem, 3vw, 2rem);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--neutral-200);
+            margin: 1rem 0;
         }
         
         .gps-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
         }
         
         .gps-title {
-            font-weight: 600;
-            color: #128C7E;
+            font-weight: 700;
+            color: var(--primary-700);
+            font-size: clamp(1rem, 2vw, 1.125rem);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.75rem;
+        }
+        
+        .gps-title i {
+            color: var(--secondary-500);
         }
         
         .btn-gps {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            gap: 0.75rem;
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1.25rem, 3vw, 1.5rem);
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: 500;
+            border-radius: var(--radius-lg);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-gps::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+            opacity: 0;
+            transition: var(--transition-base);
         }
         
         .btn-gps:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-gps:hover::before {
+            opacity: 1;
         }
         
         .btn-gps:disabled {
-            background: #ccc;
+            background: linear-gradient(135deg, var(--neutral-300) 0%, var(--neutral-400) 100%);
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-gps:disabled:hover::before {
+            opacity: 0;
         }
         
         .gps-status {
-            display: flex;
+            display: none;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            margin-top: 1rem;
             align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 5px;
-            font-size: 14px;
-            margin-top: 10px;
+            gap: 0.75rem;
+            animation: fadeIn 0.3s ease;
         }
         
         .gps-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: var(--success-50);
+            color: var(--success-700);
+            border: 2px solid var(--success-100);
         }
         
         .gps-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: var(--error-50);
+            color: var(--error-700);
+            border: 2px solid var(--error-100);
         }
         
         .gps-loading {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
+            background: var(--info-50);
+            color: var(--info-600);
+            border: 2px solid var(--info-100);
         }
         
         .gps-coords {
-            font-family: monospace;
+            display: none;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             background: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            margin-top: 10px;
-            font-size: 13px;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--neutral-200);
+            margin-top: 1rem;
+            font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+            color: var(--neutral-800);
             word-break: break-all;
+            animation: fadeIn 0.3s ease;
         }
         
+        .gps-coords strong {
+            color: var(--primary-700);
+        }
+        
+        /* Bouton d'envoi */
         .btn-submit {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            gap: 1rem;
+            padding: clamp(1rem, 2.5vw, 1.25rem);
+            background: linear-gradient(135deg, var(--secondary-500) 0%, var(--secondary-700) 100%);
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: var(--radius-lg);
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
+            transition: all var(--transition-base);
+            margin-top: clamp(1rem, 3vw, 2rem);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            opacity: 0;
+            transition: var(--transition-base);
         }
         
         .btn-submit:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+            box-shadow: var(--shadow-2xl);
+            background: linear-gradient(135deg, var(--secondary-600) 0%, var(--secondary-800) 100%);
+        }
+        
+        .btn-submit:hover::before {
+            opacity: 1;
         }
         
         .btn-submit:disabled {
-            background: #ccc;
+            background: linear-gradient(135deg, var(--neutral-300) 0%, var(--neutral-400) 100%);
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn-submit:disabled::before {
+            opacity: 0;
+        }
+        
+        .btn-submit i {
+            font-size: 1.2em;
         }
         
         /* Info Section */
         .info-section {
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-800) 100%);
             color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin: 30px 0;
+            padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            margin: clamp(2rem, 5vw, 3rem) 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 151, 6, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
         
         .info-section h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
+            font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+            margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+            position: relative;
+            z-index: 1;
         }
         
         .info-section p {
-            font-size: 18px;
-            margin-bottom: 15px;
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            opacity: 0.95;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        .info-section p:before {
+            content: '✓';
+            font-weight: bold;
+            color: var(--secondary-300);
         }
         
         .whatsapp-contact {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 1rem;
             background: white;
-            color: #25D366;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: all 0.3s ease;
+            color: var(--primary-700);
+            padding: clamp(0.875rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            margin-top: clamp(1.5rem, 4vw, 2.5rem);
+            transition: all var(--transition-base);
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--shadow-lg);
         }
         
         .whatsapp-contact:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-2xl);
+            background: var(--neutral-50);
         }
         
         /* Footer */
         footer {
-            background-color: #333;
+            background: linear-gradient(135deg, var(--neutral-900) 0%, var(--neutral-800) 100%);
             color: white;
-            padding: 40px 0 20px;
-            margin-top: 60px;
+            padding: clamp(3rem, 6vw, 5rem) 0 clamp(1.5rem, 3vw, 2rem);
+            margin-top: clamp(3rem, 6vw, 5rem);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 90%, rgba(63, 169, 70, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 10%, rgba(255, 151, 6, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
         
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+            gap: clamp(2rem, 4vw, 3rem);
+            margin-bottom: clamp(2rem, 4vw, 3rem);
+            position: relative;
+            z-index: 1;
         }
         
         .footer-column h3 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: #25D366;
+            font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+            margin-bottom: clamp(1rem, 2vw, 1.5rem);
+            color: var(--secondary-300);
+            position: relative;
+            padding-bottom: 0.75rem;
         }
         
-        .footer-column p, .footer-column a {
-            margin-bottom: 10px;
-            color: #ddd;
-            text-decoration: none;
-            display: block;
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--secondary-400) 0%, var(--primary-400) 100%);
+            border-radius: var(--radius-full);
         }
         
-        .footer-column a:hover {
-            color: #25D366;
+        .footer-column p {
+            color: var(--neutral-300);
+            margin-bottom: 0.75rem;
+            font-size: clamp(0.875rem, 1.5vw, 1rem);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .footer-column i {
+            width: 20px;
+            color: var(--primary-400);
         }
         
         .copyright {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #555;
-            font-size: 14px;
-            color: #aaa;
+            padding-top: clamp(1.5rem, 3vw, 2rem);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+            color: var(--neutral-400);
+            position: relative;
+            z-index: 1;
         }
         
-        /* Responsive */
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .brand-name {
-                font-size: 24px;
-            }
-            
-            .brand-slogan {
-                font-size: 14px;
-            }
-            
-            .logo {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
-            
-            .hero {
-                padding: 30px 20px;
-            }
-            
-            .hero h1 {
-                font-size: 28px;
-            }
-            
-            .hero p {
-                font-size: 16px;
-            }
-            
-            .form-section {
-                padding: 30px 20px;
-            }
-            
-            .section-title {
-                font-size: 24px;
-            }
-            
             .gps-header {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+                align-items: stretch;
+                gap: 1rem;
             }
             
-            .info-section {
-                padding: 30px 20px;
-            }
-            
-            .info-section h2 {
-                font-size: 24px;
-            }
-            
-            .info-section p {
-                font-size: 16px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header-content {
-                padding: 0 10px;
-            }
-            
-            .logo-container {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .brand-name {
-                font-size: 22px;
+            .btn-gps {
+                width: 100%;
+                justify-content: center;
             }
             
             .hero {
-                padding: 20px 15px;
-                margin: 20px 0;
-            }
-            
-            .hero h1 {
-                font-size: 24px;
-            }
-            
-            .hero p {
-                font-size: 15px;
+                padding: clamp(2rem, 6vw, 3rem) 1rem;
             }
             
             .form-section {
-                padding: 20px 15px;
-            }
-            
-            .section-title {
-                font-size: 22px;
+                padding: 1.5rem;
             }
             
             .info-section {
-                padding: 20px 15px;
-            }
-            
-            .info-section h2 {
-                font-size: 22px;
-            }
-            
-            .info-section p {
-                font-size: 15px;
+                padding: 2rem 1.5rem;
             }
             
             .footer-content {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                text-align: center;
             }
+            
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .section-title {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .info-section p {
+                text-align: left;
+                justify-content: flex-start;
+            }
+            
+            .whatsapp-contact {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            html {
+                font-size: 18px;
+            }
+            
+            .container {
+                max-width: 1400px;
+            }
+        }
+        
+        /* Mode sombre automatique */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --neutral-50: #0a0a0a;
+                --neutral-100: #171717;
+                --neutral-200: #262626;
+                --neutral-300: #404040;
+                --neutral-400: #525252;
+                --neutral-500: #737373;
+                --neutral-600: #a3a3a3;
+                --neutral-700: #d4d4d4;
+                --neutral-800: #e5e5e5;
+                --neutral-900: #f5f5f5;
+            }
+            
+            body {
+                background: linear-gradient(135deg, var(--neutral-50) 0%, #000000 100%);
+                color: var(--neutral-900);
+            }
+            
+            .form-section {
+                background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(40, 40, 40, 0.9) 100%);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                background: var(--neutral-100);
+                border-color: var(--neutral-700);
+                color: var(--neutral-900);
+            }
+            
+            .gps-section {
+                background: linear-gradient(135deg, var(--neutral-100) 0%, var(--neutral-200) 100%);
+                border-color: var(--neutral-700);
+            }
+            
+            .gps-coords {
+                background: var(--neutral-100);
+                border-color: var(--neutral-700);
+            }
+        }
+        
+        /* Support pour les navigateurs anciens */
+        @supports not (backdrop-filter: blur(10px)) {
+            .form-section {
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
+            }
+            
+            @media (prefers-color-scheme: dark) {
+                .form-section {
+                    background: linear-gradient(135deg, rgba(30, 30, 30, 0.98) 0%, rgba(40, 40, 40, 0.95) 100%);
+                }
+            }
+        }
+        
+        /* Améliorations d'accessibilité */
+        .btn:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid var(--primary-400);
+            outline-offset: 2px;
+        }
+        
+        /* Validation du formulaire */
+        .form-group input:invalid,
+        .form-group select:invalid,
+        .form-group textarea:invalid {
+            border-color: var(--error-500);
+        }
+        
+        .form-group input:valid,
+        .form-group select:valid,
+        .form-group textarea:valid {
+            border-color: var(--success-500);
+        }
+        
+        /* Loader personnalisé */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -501,7 +978,7 @@
             <div class="header-content">
                 <div class="logo-container">
                     <div class="logo">K</div>
-                    <div>
+                    <div class="brand-info">
                         <div class="brand-name">BOUTIQUE KOLA</div>
                         <div class="brand-slogan">Votre shopping en toute élégance</div>
                     </div>
@@ -511,10 +988,10 @@
     </header>
 
     <!-- Main Content -->
-    <div class="container">
+    <main class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <h1>Passer une Commande</h1>
+            <h1>Passer une <span>Commande</span></h1>
             <p>Remplissez ce formulaire simplifié pour passer votre commande. Nous vous recontacterons rapidement sur WhatsApp.</p>
         </section>
 
@@ -555,7 +1032,7 @@
                     <div class="gps-header">
                         <div class="gps-title">
                             <i class="fas fa-map-pin"></i>
-                            Coordonnées GPS
+                            Coordonnées GPS (Optionnel)
                         </div>
                         <button type="button" class="btn-gps" id="btnGps">
                             <i class="fas fa-crosshairs"></i>
@@ -563,11 +1040,11 @@
                         </button>
                     </div>
                     
-                    <div id="gpsStatus" style="display: none;">
+                    <div id="gpsStatus" class="gps-status">
                         <!-- Le statut GPS sera affiché ici dynamiquement -->
                     </div>
                     
-                    <div id="gpsCoords" style="display: none;">
+                    <div id="gpsCoords" class="gps-coords">
                         <!-- Les coordonnées GPS seront affichées ici -->
                     </div>
                 </div>
@@ -579,7 +1056,7 @@
                 
                 <div class="form-group">
                     <label for="whatsapp"><i class="fab fa-whatsapp"></i> Votre numéro WhatsApp *</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Votre numéro avec indicatif" required>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Ex: +228 92 87 16 05" required pattern="^\+?[0-9\s\-\(\)]+$">
                 </div>
                 
                 <button type="submit" class="btn-submit" id="submitBtn">
@@ -597,11 +1074,13 @@
             <p>4. Votre commande sera envoyée directement sur WhatsApp</p>
             <p>5. Nous vous contacterons pour confirmer et finaliser votre commande</p>
             
-            <a href="https://wa.me/22892871605" class="whatsapp-contact" target="_blank">
+            <a href="https://wa.me/22892871605?text=Bonjour%20Boutique%20KOLA,%20je%20souhaite%20passer%20une%20commande" 
+               class="whatsapp-contact" 
+               target="_blank">
                 <i class="fab fa-whatsapp"></i> Nous contacter directement
             </a>
         </section>
-    </div>
+    </main>
      
     <!-- Footer -->
     <footer>
@@ -609,7 +1088,7 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Boutique KOLA</h3>
-                    <p>Votre destination shopping préférée à Lomé depuis 2024.</p>
+                    <p><i class="fas fa-store"></i> Votre destination shopping préférée à Lomé depuis 2024.</p>
                 </div>
                 
                 <div class="footer-column">
@@ -621,9 +1100,9 @@
                 
                 <div class="footer-column">
                     <h3>Horaires d'Ouverture</h3>
-                    <p>Lundi - Vendredi: 8h - 20h</p>
-                    <p>Samedi: 9h - 20h</p>
-                    <p>Dimanche: 9h - 16h</p>
+                    <p><i class="fas fa-clock"></i> Lundi - Vendredi: 8h - 20h</p>
+                    <p><i class="fas fa-clock"></i> Samedi: 9h - 20h</p>
+                    <p><i class="fas fa-clock"></i> Dimanche: 9h - 16h</p>
                 </div>
             </div>
             
@@ -634,140 +1113,356 @@
     </footer>
 
     <script>
-        // Variables pour stocker les coordonnées GPS
+        // Variables globales
         let gpsCoordinates = null;
+        let isGettingLocation = false;
 
-        // Gestion du bouton GPS
-        document.getElementById('btnGps').addEventListener('click', function() {
-            getGPSLocation();
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            initFormValidation();
+            initGPSButton();
+            initFormSubmit();
+            initAnimations();
+            setupDarkMode();
         });
 
+        // Validation du formulaire
+        function initFormValidation() {
+            const form = document.getElementById('commandeForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    validateField(input);
+                });
+                
+                input.addEventListener('blur', () => {
+                    validateField(input);
+                });
+            });
+
+            // Validation initiale
+            validateForm();
+        }
+
+        function validateField(field) {
+            if (field.validity.valid) {
+                field.classList.remove('invalid');
+                field.classList.add('valid');
+            } else {
+                field.classList.remove('valid');
+                field.classList.add('invalid');
+            }
+            validateForm();
+        }
+
+        function validateForm() {
+            const form = document.getElementById('commandeForm');
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = !form.checkValidity();
+        }
+
+        // Gestion du bouton GPS
+        function initGPSButton() {
+            const btnGps = document.getElementById('btnGps');
+            btnGps.addEventListener('click', getGPSLocation);
+        }
+
         // Fonction pour obtenir la position GPS
-        function getGPSLocation() {
+        async function getGPSLocation() {
+            if (isGettingLocation) return;
+            
             const btnGps = document.getElementById('btnGps');
             const gpsStatus = document.getElementById('gpsStatus');
             const gpsCoords = document.getElementById('gpsCoords');
-
-            // Réinitialiser l'affichage
-            gpsStatus.style.display = 'block';
+            
+            // Réinitialiser
+            gpsStatus.style.display = 'none';
             gpsCoords.style.display = 'none';
+            
+            isGettingLocation = true;
+            btnGps.disabled = true;
+            btnGps.innerHTML = '<span class="loader"></span> Localisation...';
+            
+            // Afficher le statut de chargement
             gpsStatus.className = 'gps-status gps-loading';
             gpsStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Localisation en cours...';
-
-            btnGps.disabled = true;
-            btnGps.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Localisation...';
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    // Succès
-                    function(position) {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        
-                        gpsCoordinates = `${latitude},${longitude}`;
-                        
-                        // Afficher le succès
-                        gpsStatus.className = 'gps-status gps-success';
-                        gpsStatus.innerHTML = '<i class="fas fa-check-circle"></i> Position GPS obtenue avec succès !';
-                        
-                        // Afficher les coordonnées
-                        gpsCoords.style.display = 'block';
-                        gpsCoords.className = 'gps-coords';
-                        gpsCoords.innerHTML = `<strong>Coordonnées:</strong> ${gpsCoordinates}`;
-                        
-                        btnGps.disabled = false;
-                        btnGps.innerHTML = '<i class="fas fa-check"></i> Position obtenue';
-                    },
-                    // Erreur
-                    function(error) {
-                        let errorMessage = 'Erreur lors de la localisation';
-                        
-                        switch(error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMessage = 'Permission de localisation refusée';
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessage = 'Position indisponible';
-                                break;
-                            case error.TIMEOUT:
-                                errorMessage = 'Délai de localisation dépassé';
-                                break;
-                        }
-                        
-                        gpsStatus.className = 'gps-status gps-error';
-                        gpsStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${errorMessage}`;
-                        
-                        btnGps.disabled = false;
-                        btnGps.innerHTML = '<i class="fas fa-crosshairs"></i> Réessayer la localisation';
-                    },
-                    // Options
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                gpsStatus.className = 'gps-status gps-error';
-                gpsStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Géolocalisation non supportée par votre navigateur';
+            gpsStatus.style.display = 'flex';
+            
+            try {
+                if (!navigator.geolocation) {
+                    throw new Error('Géolocalisation non supportée');
+                }
                 
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, {
+                        enableHighAccuracy: true,
+                        timeout: 15000,
+                        maximumAge: 0
+                    });
+                });
+                
+                const { latitude, longitude, accuracy } = position.coords;
+                gpsCoordinates = `${latitude.toFixed(6)},${longitude.toFixed(6)}`;
+                
+                // Succès
+                gpsStatus.className = 'gps-status gps-success';
+                gpsStatus.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Position obtenue avec succès !</strong>
+                        <div style="font-size: 0.875rem; margin-top: 0.25rem; opacity: 0.8;">
+                            Précision: ±${Math.round(accuracy)} mètres
+                        </div>
+                    </div>
+                `;
+                
+                // Afficher les coordonnées
+                gpsCoords.innerHTML = `
+                    <strong>Coordonnées GPS:</strong><br>
+                    <code>${gpsCoordinates}</code><br>
+                    <div style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.7;">
+                        Ces coordonnées seront automatiquement ajoutées à votre commande
+                    </div>
+                `;
+                gpsCoords.style.display = 'block';
+                
+                btnGps.innerHTML = '<i class="fas fa-check"></i> Position obtenue';
+                
+                // Notification sonore optionnelle
+                playSuccessSound();
+                
+            } catch (error) {
+                let errorMessage = 'Erreur lors de la localisation';
+                
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage = 'Permission de localisation refusée. Activez-la dans les paramètres de votre navigateur.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage = 'Position indisponible. Vérifiez votre connexion internet.';
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage = 'Délai de localisation dépassé. Réessayez dans un endroit dégagé.';
+                        break;
+                }
+                
+                gpsStatus.className = 'gps-status gps-error';
+                gpsStatus.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>${errorMessage}</strong>
+                        <div style="font-size: 0.875rem; margin-top: 0.25rem;">
+                            Vous pouvez continuer sans les coordonnées GPS
+                        </div>
+                    </div>
+                `;
+                
+                gpsCoordinates = null;
+                btnGps.innerHTML = '<i class="fas fa-crosshairs"></i> Réessayer la localisation';
+                
+            } finally {
+                isGettingLocation = false;
                 btnGps.disabled = false;
-                btnGps.innerHTML = '<i class="fas fa-crosshairs"></i> Obtenir ma position GPS';
+                gpsStatus.style.display = 'flex';
             }
         }
 
         // Gestion de l'envoi du formulaire
-        document.getElementById('commandeForm').addEventListener('submit', function(e) {
+        function initFormSubmit() {
+            const form = document.getElementById('commandeForm');
+            form.addEventListener('submit', handleFormSubmit);
+        }
+
+        async function handleFormSubmit(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Préparation de la commande...';
-
-            // Récupérer les valeurs du formulaire
-            const nom = document.getElementById('nom').value;
-            const region = document.getElementById('region').value;
-            const ville = document.getElementById('ville').value;
-            const adresse = document.getElementById('adresse').value;
-            const articles = document.getElementById('articles').value;
-            const whatsapp = document.getElementById('whatsapp').value;
-
-            // Construire le message WhatsApp
-            let whatsappMessage = `NOUVELLE COMMANDE - BOUTIQUE KOLA%0A%0A`;
-            whatsappMessage += `📋 *INFORMATIONS CLIENT*%0A`;
-            whatsappMessage += `👤 *Nom:* ${nom}%0A`;
-            whatsappMessage += `📱 *WhatsApp:* ${whatsapp}%0A%0A`;
+            const originalText = submitBtn.innerHTML;
             
-            whatsappMessage += `📍 *ADRESSE DE LIVRAISON*%0A`;
-            whatsappMessage += `🏛️ *Région:* ${region}%0A`;
-            whatsappMessage += `🏙️ *Ville:* ${ville}%0A`;
-            whatsappMessage += `📬 *Adresse:* ${adresse}%0A`;
-            
-            // Ajouter les coordonnées GPS si disponibles
-            if (gpsCoordinates) {
-                whatsappMessage += `🌐 *Coordonnées GPS:* ${gpsCoordinates}%0A`;
-            } else {
-                whatsappMessage += `⚠️ *GPS:* Non fourni%0A`;
-            }
-            
-            whatsappMessage += `%0A🛒 *ARTICLES COMMANDÉS*%0A`;
-            whatsappMessage += `${articles}%0A%0A`;
-            
-            whatsappMessage += `_Merci de traiter cette commande_ 🛍️`;
-
-            // Numéro WhatsApp de la boutique
-            const phoneNumber = '22892871605';
-            
-            // Ouvrir WhatsApp avec le message pré-rempli
-            setTimeout(() => {
-                window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, '_blank');
+            try {
+                // Validation supplémentaire
+                if (!validateAllFields()) {
+                    showNotification('Veuillez corriger les erreurs dans le formulaire', 'error');
+                    return;
+                }
                 
-                // Réactiver le bouton après un délai
+                // Désactiver le bouton pendant l'envoi
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="loader"></span> Préparation en cours...';
+                
+                // Récupérer les données du formulaire
+                const formData = getFormData();
+                
+                // Construire le message WhatsApp
+                const whatsappMessage = buildWhatsAppMessage(formData);
+                
+                // Attendre un peu pour l'effet visuel
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Ouvrir WhatsApp
+                openWhatsApp(whatsappMessage);
+                
+                // Réactiver le bouton
                 setTimeout(() => {
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Envoyer la commande via WhatsApp';
+                    submitBtn.innerHTML = originalText;
+                    showNotification('Commande envoyée avec succès !', 'success');
                 }, 3000);
-            }, 1000);
+                
+            } catch (error) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showNotification('Erreur lors de l\'envoi de la commande', 'error');
+                console.error('Erreur:', error);
+            }
+        }
+
+        function validateAllFields() {
+            const requiredFields = document.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('invalid');
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+
+        function getFormData() {
+            return {
+                nom: document.getElementById('nom').value,
+                region: document.getElementById('region').value,
+                ville: document.getElementById('ville').value,
+                adresse: document.getElementById('adresse').value,
+                articles: document.getElementById('articles').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                gps: gpsCoordinates
+            };
+        }
+
+        function buildWhatsAppMessage(data) {
+            const now = new Date().toLocaleString('fr-FR');
+            
+            return `Nouvelle Commande - Boutique KOLA%0A%0A` +
+                   `📋 *INFORMATIONS CLIENT*%0A` +
+                   `👤 *Nom:* ${data.nom}%0A` +
+                   `📱 *WhatsApp:* ${data.whatsapp}%0A` +
+                   `📅 *Date:* ${now}%0A%0A` +
+                   `📍 *ADRESSE DE LIVRAISON*%0A` +
+                   `🏛️ *Région:* ${data.region}%0A` +
+                   `🏙️ *Ville:* ${data.ville}%0A` +
+                   `📬 *Adresse:* ${data.adresse}%0A` +
+                   (data.gps ? `🌐 *GPS:* ${data.gps}%0A` : `⚠️ *GPS:* Non fourni%0A`) +
+                   `%0A🛒 *ARTICLES COMMANDÉS*%0A` +
+                   `${data.articles}%0A%0A` +
+                   `_Merci de traiter cette commande_ 🛍️`;
+        }
+
+        function openWhatsApp(message) {
+            const phoneNumber = '22892871605';
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Animations
+        function initAnimations() {
+            // Animation d'entrée pour les sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        }
+
+        // Mode sombre
+        function setupDarkMode() {
+            const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            if (darkModeMediaQuery.matches) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            darkModeMediaQuery.addEventListener('change', (e) => {
+                if (e.matches) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            });
+        }
+
+        // Notifications
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#22c55e' : '#ef4444'};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Effet sonore optionnel
+        function playSuccessSound() {
+            // Créer un son de succès simple
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Gestion du redimensionnement
+        window.addEventListener('resize', () => {
+            clearTimeout(window.resizeTimer);
+            window.resizeTimer = setTimeout(() => {
+                // Réinitialiser certaines animations si nécessaire
+            }, 250);
         });
     </script>
 </body>
